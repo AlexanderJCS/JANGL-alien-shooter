@@ -4,6 +4,8 @@ import game.gameobjects.Enemy;
 import game.gameobjects.GameObject;
 import game.gameobjects.Wall;
 import jangl.coords.WorldCoords;
+import jangl.graphics.shaders.ShaderProgram;
+import jangl.graphics.shaders.premade.TextureShaderVert;
 import jangl.io.keyboard.Keyboard;
 import jangl.io.mouse.Mouse;
 import jangl.shapes.Rect;
@@ -11,6 +13,7 @@ import jangl.shapes.Shape;
 import jangl.shapes.Transform;
 import jangl.time.Clock;
 import org.lwjgl.glfw.GLFW;
+import shaders.OverheatShader;
 
 import java.util.List;
 
@@ -18,6 +21,7 @@ public class Player extends GameObject {
     private final float speed;
     private final LaserGun laserGun;
     private final List<Wall> walls;
+    private final ShaderProgram shaderProgram;
 
     public Player(List<Wall> walls, List<Enemy> aliens, float speed) {
         super(new Rect(new WorldCoords(0, 0), 0.075f, 0.075f), "player");
@@ -25,12 +29,18 @@ public class Player extends GameObject {
         this.speed = speed;
         this.laserGun = new LaserGun(walls, aliens);
         this.walls = walls;
+
+        this.getTexture().useDefaultShader(false);
+        this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new OverheatShader(this.laserGun.getOverheat()));
     }
 
     @Override
     public void draw() {
         this.laserGun.draw();
-        super.draw();
+
+        this.shaderProgram.bind();
+        this.image.draw();
+        this.shaderProgram.unbind();
     }
 
     @Override
@@ -113,7 +123,7 @@ public class Player extends GameObject {
 
     @Override
     public void close() {
+        this.shaderProgram.close();
         super.close();
-        this.laserGun.close();
     }
 }

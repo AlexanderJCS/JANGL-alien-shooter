@@ -7,7 +7,6 @@ import game.gameobjects.Wall;
 import jangl.coords.WorldCoords;
 import jangl.io.keyboard.Keyboard;
 import jangl.shapes.Transform;
-import jangl.sound.Sound;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -20,6 +19,7 @@ public class LaserGun implements AutoCloseable {
     private final List<Laser> lasers;
     private final List<Wall> walls;
     private final List<Enemy> aliens;
+    private final GunOverheat overheat;
 
     public LaserGun(List<Wall> walls, List<Enemy> aliens) {
         this.walls = walls;
@@ -32,6 +32,7 @@ public class LaserGun implements AutoCloseable {
         // for the laser equivalent of the A-10 Warthog
         this.cooldown = new Cooldown(0.15f);
         SoundPlayer.setVolume("shoot", 0.3f);
+        this.overheat = new GunOverheat(0.08f, 0.3f);
     }
 
     public void draw() {
@@ -40,8 +41,13 @@ public class LaserGun implements AutoCloseable {
         }
     }
 
+    public GunOverheat getOverheat() {
+        return this.overheat;
+    }
+
     public void update(Transform playerTransform) {
         this.cooldown.update();
+        this.overheat.update();
 
         this.spawnLaser(playerTransform);
         this.cleanUpLasers(playerTransform);
@@ -58,12 +64,13 @@ public class LaserGun implements AutoCloseable {
     }
 
     private void spawnLaser(Transform playerTransform) {
-        if (Keyboard.getKeyDown(GLFW.GLFW_KEY_SPACE) && !this.cooldown.onCooldown()) {
+        if (Keyboard.getKeyDown(GLFW.GLFW_KEY_SPACE) && !this.cooldown.onCooldown() && this.overheat.canFire()) {
             this.lasers.add(
                     new Laser(this.walls, this.aliens, playerTransform.getCenter(), playerTransform.getLocalRotationAngle(), this.speed)
             );
 
             this.cooldown.activate();
+            this.overheat.fire();
             SoundPlayer.playSound("shoot");
         }
     }
