@@ -13,6 +13,7 @@ public class SoundPlayer {
         put("shoot", new Sound("src/main/resources/sounds/shoot.ogg"));
         put("round_almost_done", new Sound("src/main/resources/sounds/round_almost_done.ogg"));
         put("round_done", new Sound("src/main/resources/sounds/round_done.ogg"));
+        put("overheat", new Sound("src/main/resources/sounds/overheat.ogg"));
     }};
 
     public static void setVolume(String id, float volume) {
@@ -21,5 +22,9 @@ public class SoundPlayer {
 
     public static void playSound(String id) {
         SOUND_MAP.get(id).play();
+    }
+
+    public static Sound getSound(String id) {
+        return SOUND_MAP.get(id);
     }
 }

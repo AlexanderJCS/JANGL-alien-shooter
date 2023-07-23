@@ -20,6 +20,6 @@ public class OverheatShader extends FragmentShader {
     @Override
     public void setUniforms(int programID) {
         int uniformLocation = glGetUniformLocation(programID, "overheatPercent");
-        glUniform1f(uniformLocation, this.overheat.getOverheatPercent());
+        glUniform1f(uniformLocation, this.overheat.getOverheatPercent() * 1.5f);
     }
 }
