@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         JANGL.init(1600, 900);
         Window.setTitle("Enemy Shooter");
-        Window.setVsync(false);
+        Window.setVsync(true);
         Window.setIcon(new TextureBuilder().setImagePath("src/main/resources/icon.png"));
 
         Game game = new Game();

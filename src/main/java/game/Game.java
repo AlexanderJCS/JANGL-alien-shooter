@@ -56,7 +56,7 @@ public class Game implements AutoCloseable {
             this.update();
             this.draw();
 
-            Window.setTitle(String.valueOf(Clock.getSmoothedFps()));
+            Window.setTitle("Alien Shooter | FPS: " + Math.round(Clock.getSmoothedFps()));
 
             JANGL.update();
         }
