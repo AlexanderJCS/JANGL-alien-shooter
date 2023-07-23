@@ -99,7 +99,7 @@ public class Enemy extends GameObject implements Destroyable {
             double wallRadiusSquared = Math.pow(wallRect.getWidth() / 2, 2) + Math.pow(wallRect.getHeight() / 2, 2);
             double playerRadiusSquared = Math.pow(thisRect.getWidth() / 2, 2) + Math.pow(thisRect.getHeight() / 2, 2);
 
-            if (playerRadiusSquared + wallRadiusSquared < distSquared) {
+            if (Math.sqrt(playerRadiusSquared) + Math.sqrt(wallRadiusSquared) < Math.sqrt(distSquared)) {
                 continue;
             }
 
