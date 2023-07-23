@@ -1,0 +1,127 @@
+package game.gameobjects;
+
+import game.gameobjects.helper.Destroyable;
+import game.gameobjects.helper.HealthContainer;
+import game.gameobjects.player.Player;
+import jangl.coords.WorldCoords;
+import jangl.shapes.Rect;
+import jangl.shapes.Shape;
+import jangl.shapes.Transform;
+import jangl.time.Clock;
+import org.lwjgl.glfw.GLFW;
+
+import java.util.List;
+
+public class Enemy extends GameObject implements Destroyable {
+    private final static float COOLDOWN_SPEED_MULTIPLIER = 0.5f;
+    private final float speed;
+    private final Player target;
+    private final List<Wall> walls;
+    private float angle;
+    private final HealthContainer healthContainer;
+
+    public Enemy(WorldCoords center, Player player, List<Wall> walls, float speed) {
+        super(new Rect(new WorldCoords(0, 0), 0.075f, 0.075f), "enemy");
+
+        this.getRect().getTransform().setPos(center);
+        this.target = player;
+        this.speed = speed;
+        this.walls = walls;
+        this.angle = 0;
+        this.healthContainer = new HealthContainer(25, 1f);
+    }
+
+    private void setRotation() {
+        WorldCoords thisLocation = this.getRect().getTransform().getCenter();
+        WorldCoords targetCoords = this.target.getRect().getTransform().getCenter();
+
+        double distSquared = Math.pow(targetCoords.x - thisLocation.x, 2) + Math.pow(targetCoords.y - thisLocation.y, 2);
+        float screenWidth = WorldCoords.getMiddle().x * 2;
+
+        // Perform an optimization where the visual shape only rotates if it's on screen
+        if (distSquared < screenWidth) {
+            this.angle = (float) (Math.atan2(thisLocation.y - targetCoords.y, thisLocation.x - targetCoords.x));
+            this.getRect().getTransform().setLocalRotation(this.angle);
+        }
+    }
+
+    /**
+     * @param movement The WorldCoords movement. WARNING: only have one axis at a time set to a non-zero value.
+     */
+    private void moveInDirection(WorldCoords movement) {
+        Transform transform = this.getRect().getTransform();
+
+        transform.shift(movement);
+
+        for (Wall wall : this.walls) {
+            // Treat the two objects as circles, where their radii is the farthest point from the center. If the circles
+            // are not colliding, then it's impossible for the shapes to be colliding. This optimization makes the game
+            // run much smoother.
+            // In my experience, I went from getting < 20 FPS with 2000 enemies to > 120 FPS with 2000 enemies.
+            // The time it takes for the game to update went from 0.04 seconds to 0.003 seconds (over 10x!)
+            Rect wallRect = wall.getRect();
+            Rect thisRect = this.getRect();
+
+            WorldCoords wallCenter = wallRect.getTransform().getCenter();
+            WorldCoords thisCenter = thisRect.getTransform().getCenter();
+
+            double distSquared = Math.pow(wallCenter.x - thisCenter.x, 2) + Math.pow(wallCenter.y - thisCenter.y, 2);
+
+            double wallRadiusSquared = Math.pow(wallRect.getWidth() / 2, 2) + Math.pow(wallRect.getHeight() / 2, 2);
+            double playerRadiusSquared = Math.pow(thisRect.getWidth() / 2, 2) + Math.pow(thisRect.getHeight() / 2, 2);
+
+            if (playerRadiusSquared + wallRadiusSquared < distSquared) {
+                continue;
+            }
+
+            if (Shape.collides(wall.getRect(), this.getRect())) {
+                transform.shift(-movement.x, -movement.y);
+                break;
+            }
+        }
+    }
+
+    public void takeDamage(float damage) {
+        this.healthContainer.takeDamage(damage);
+    }
+
+    private void move() {
+        float speed = this.healthContainer.onCooldown() ? this.speed * COOLDOWN_SPEED_MULTIPLIER : this.speed;
+
+        float moveX = (float) (Math.cos(this.angle) * speed * Clock.getTimeDelta());
+        float moveY = (float) (Math.sin(this.angle) * speed * Clock.getTimeDelta());
+
+        this.moveInDirection(new WorldCoords(-moveX, 0));
+        this.moveInDirection(new WorldCoords(0, -moveY));
+    }
+
+    public boolean onCooldown() {
+        return this.healthContainer.onCooldown();
+    }
+
+    @Override
+    public boolean shouldDestroy() {
+        return this.healthContainer.getHealth() <= 0;
+    }
+
+    @Override
+    public void update() {
+        this.healthContainer.update();
+
+        this.getRect().getTransform().setLocalRotation(0);
+        this.move();
+        this.setRotation();
+    }
+
+    /**
+     * This draw method requires that the enemy texture is already bound
+     */
+    @Override
+    public void draw() {
+        if (this.healthContainer.onCooldown() && Math.round(GLFW.glfwGetTime() * 20) % 2 == 0) {
+            return;
+        }
+
+        super.draw();
+    }
+}
