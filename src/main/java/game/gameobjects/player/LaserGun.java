@@ -65,9 +65,10 @@ public class LaserGun implements AutoCloseable {
 
     private void spawnLaser(Transform playerTransform) {
         if (Keyboard.getKeyDown(GLFW.GLFW_KEY_SPACE) && !this.cooldown.onCooldown()) {
-            if (this.overheat.canFire()) {
+            if (!this.overheat.canFire()) {
                 SoundPlayer.playSound("overheat");
                 this.cooldown.activate();
+                return;
             }
 
             this.lasers.add(
