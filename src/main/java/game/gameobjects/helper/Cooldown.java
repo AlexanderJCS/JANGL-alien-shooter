@@ -31,6 +31,10 @@ public class Cooldown {
         return this.currentCooldown;
     }
 
+    public void setCurrentCooldown(float cooldown) {
+        this.currentCooldown = cooldown;
+    }
+
     public float getMaxCooldown() {
         return maxCooldown;
     }
