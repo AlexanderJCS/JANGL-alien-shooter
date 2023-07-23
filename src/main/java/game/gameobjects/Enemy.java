@@ -63,7 +63,7 @@ public class Enemy extends GameObject implements Destroyable {
             Rect thisRect = this.getRect();
 
             WorldCoords wallCenter = wallRect.getTransform().getCenter();
-            WorldCoords thisCenter = thisRect.getTransform().getCenter();
+            WorldCoords thisCenter = transform.getCenter();
 
             double distSquared = Math.pow(wallCenter.x - thisCenter.x, 2) + Math.pow(wallCenter.y - thisCenter.y, 2);
 

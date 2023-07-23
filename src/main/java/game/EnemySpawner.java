@@ -47,7 +47,7 @@ public class EnemySpawner implements AutoCloseable {
         float speed = BASE_SPEED * (float) (Math.pow(this.waveNumber, 1.6) / 100 + 1);
         float randomness = speed / 10;
 
-        int numEnemies = (int) Math.round(Math.pow(this.waveNumber, 1.6));
+        int numEnemies = (int) Math.round(Math.pow(this.waveNumber, 1.6)) * 10;
         List<WorldCoords> spawnLocations = this.gameMap.getSpawnLocations();
 
         for (int i = 0; i < numEnemies; i++) {
