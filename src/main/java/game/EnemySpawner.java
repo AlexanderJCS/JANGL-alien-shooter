@@ -87,7 +87,9 @@ public class EnemySpawner implements AutoCloseable {
         if (!this.waveCooldown.onCooldown()) {
             SoundPlayer.playSound("round_done");
             this.spawnNextWave();
-        } else if (this.enemies.size() == 0) {
+        }
+
+        if (this.enemies.size() == 0 && this.waveCooldown.getCurrentCooldown() > 5) {
             this.waveCooldown.setCurrentCooldown(5);
         }
 
