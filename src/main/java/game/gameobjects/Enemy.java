@@ -1,5 +1,6 @@
 package game.gameobjects;
 
+import game.gameobjects.helper.Cooldown;
 import game.gameobjects.helper.Destroyable;
 import game.gameobjects.helper.HealthContainer;
 import game.gameobjects.player.Player;
@@ -15,25 +16,53 @@ import java.util.List;
 public class Enemy extends GameObject implements Destroyable {
     private final static float COOLDOWN_SPEED_MULTIPLIER = 0.5f;
     private final float speed;
-    private final Player target;
+    private final Player player;
     private final List<Wall> walls;
     private float angle;
     private final HealthContainer healthContainer;
+    /**
+     * Run away after hitting the player.
+     */
+    private final Cooldown runAwayCooldown;
 
     public Enemy(WorldCoords center, Player player, List<Wall> walls, float speed) {
         super(new Rect(new WorldCoords(0, 0), 0.075f, 0.075f), "enemy");
 
         this.getRect().getTransform().setPos(center);
-        this.target = player;
+        this.player = player;
         this.speed = speed;
         this.walls = walls;
         this.angle = 0;
         this.healthContainer = new HealthContainer(18, 1f);
+        this.runAwayCooldown = new Cooldown(1);
+    }
+
+    @Override
+    public void update() {
+        this.healthContainer.update();
+        this.runAwayCooldown.update();
+
+        this.getRect().getTransform().setLocalRotation(0);
+        this.move();
+        this.setRotation();
+        this.dealDamage();
+    }
+
+    /**
+     * This draw method requires that the enemy texture is already bound
+     */
+    @Override
+    public void draw() {
+        if (this.healthContainer.onCooldown() && Math.round(GLFW.glfwGetTime() * 20) % 2 == 0) {
+            return;
+        }
+
+        super.draw();
     }
 
     private void setRotation() {
         WorldCoords thisLocation = this.getRect().getTransform().getCenter();
-        WorldCoords targetCoords = this.target.getRect().getTransform().getCenter();
+        WorldCoords targetCoords = this.player.getRect().getTransform().getCenter();
 
         double distSquared = Math.pow(targetCoords.x - thisLocation.x, 2) + Math.pow(targetCoords.y - thisLocation.y, 2);
         float screenWidth = WorldCoords.getMiddle().x * 2;
@@ -81,6 +110,13 @@ public class Enemy extends GameObject implements Destroyable {
         }
     }
 
+    public void dealDamage() {
+        if (Shape.collides(this.getRect(), this.player.getRect())) {
+            this.player.dealDamage(1);
+            this.runAwayCooldown.activate();
+        }
+    }
+
     public void takeDamage(float damage) {
         this.healthContainer.takeDamage(damage);
     }
@@ -90,6 +126,11 @@ public class Enemy extends GameObject implements Destroyable {
 
         float moveX = (float) (Math.cos(this.angle) * speed * Clock.getTimeDelta());
         float moveY = (float) (Math.sin(this.angle) * speed * Clock.getTimeDelta());
+
+        if (this.runAwayCooldown.onCooldown()) {
+            moveX *= -1;
+            moveY *= -1;
+        }
 
         this.moveInDirection(new WorldCoords(-moveX, 0));
         this.moveInDirection(new WorldCoords(0, -moveY));
@@ -102,26 +143,5 @@ public class Enemy extends GameObject implements Destroyable {
     @Override
     public boolean shouldDestroy() {
         return this.healthContainer.getHealth() <= 0;
-    }
-
-    @Override
-    public void update() {
-        this.healthContainer.update();
-
-        this.getRect().getTransform().setLocalRotation(0);
-        this.move();
-        this.setRotation();
-    }
-
-    /**
-     * This draw method requires that the enemy texture is already bound
-     */
-    @Override
-    public void draw() {
-        if (this.healthContainer.onCooldown() && Math.round(GLFW.glfwGetTime() * 20) % 2 == 0) {
-            return;
-        }
-
-        super.draw();
     }
 }

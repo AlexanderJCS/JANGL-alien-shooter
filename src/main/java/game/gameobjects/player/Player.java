@@ -3,6 +3,7 @@ package game.gameobjects.player;
 import game.gameobjects.Enemy;
 import game.gameobjects.GameObject;
 import game.gameobjects.Wall;
+import game.gameobjects.helper.HealthContainer;
 import jangl.coords.WorldCoords;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.premade.TextureShaderVert;
@@ -22,6 +23,7 @@ public class Player extends GameObject {
     private final LaserGun laserGun;
     private final List<Wall> walls;
     private final ShaderProgram shaderProgram;
+    private final HealthContainer healthContainer;
 
     public Player(List<Wall> walls, List<Enemy> aliens, float speed) {
         super(new Rect(new WorldCoords(0, 0), 0.075f, 0.075f), "player");
@@ -32,6 +34,7 @@ public class Player extends GameObject {
 
         this.getTexture().useDefaultShader(false);
         this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new OverheatShader(this.laserGun.getOverheat()));
+        this.healthContainer = new HealthContainer(10, 0.5f);
     }
 
     @Override
@@ -52,6 +55,11 @@ public class Player extends GameObject {
         this.setRotation();
 
         this.laserGun.update(this.getRect().getTransform());
+        this.healthContainer.update();
+    }
+
+    public void dealDamage(float damage) {
+        this.healthContainer.takeDamage(damage);
     }
 
     /**
