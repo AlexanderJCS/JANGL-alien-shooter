@@ -49,8 +49,10 @@ public class EnemySpawner implements AutoCloseable {
         int numEnemies = (int) Math.round(Math.pow(this.waveNumber, 1.15));
         List<WorldCoords> spawnLocations = this.map.getSpawnLocations();
 
-        for (int i = 0; i < 2000; i++) {
-            int spawnLocationIndex = i % spawnLocations.size();
+        for (int i = 0; i < numEnemies; i++) {
+            this.player.getRect().getTransform().setPos(new WorldCoords(0, 0));
+
+            int spawnLocationIndex = this.random.nextInt(spawnLocations.size());
             WorldCoords spawnLocation = new WorldCoords(
                     spawnLocations.get(spawnLocationIndex).x,
                     spawnLocations.get(spawnLocationIndex).y
