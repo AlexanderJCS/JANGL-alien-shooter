@@ -33,7 +33,7 @@ public class Enemy extends GameObject implements Destroyable {
         this.speed = speed;
         this.walls = walls;
         this.angle = 0;
-        this.healthContainer = new HealthContainer(18, 1f);
+        this.healthContainer = new HealthContainer(18, 1f, 0);
         this.runAwayCooldown = new Cooldown(1);
     }
 

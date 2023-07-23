@@ -37,7 +37,7 @@ public class Game implements AutoCloseable {
         this.player.update();
         this.enemySpawner.update();
 
-        String enemiesNumberString = "Enemies: " + this.enemySpawner.getEnemyList().size() + " | Time to next wave: " + Math.round(this.enemySpawner.timeToNextWave());
+        String enemiesNumberString = "Enemies: " + this.enemySpawner.getEnemyList().size() + " | Time to next wave: " + Math.round(this.enemySpawner.timeToNextWave()) + " | Health: " + Math.round(this.player.getHealth());
         if (!this.enemiesCounter.getText().equals(enemiesNumberString)) {
             this.enemiesCounter.setText(enemiesNumberString);
         }

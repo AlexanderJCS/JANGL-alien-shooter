@@ -34,12 +34,16 @@ public class Player extends GameObject {
 
         this.getTexture().useDefaultShader(false);
         this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new OverheatShader(this.laserGun.getOverheat()));
-        this.healthContainer = new HealthContainer(10, 0.5f);
+        this.healthContainer = new HealthContainer(10, 1.5f, 0.1f);
     }
 
     @Override
     public void draw() {
         this.laserGun.draw();
+
+        if (this.healthContainer.onCooldown() && Math.round(GLFW.glfwGetTime() * 20) % 2 == 0) {
+            return;
+        }
 
         this.shaderProgram.bind();
         this.image.draw();
@@ -60,6 +64,10 @@ public class Player extends GameObject {
 
     public void dealDamage(float damage) {
         this.healthContainer.takeDamage(damage);
+    }
+
+    public float getHealth() {
+        return this.healthContainer.getHealth();
     }
 
     /**
