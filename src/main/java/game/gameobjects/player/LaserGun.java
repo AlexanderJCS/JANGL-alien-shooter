@@ -7,7 +7,6 @@ import game.gameobjects.Wall;
 import jangl.coords.WorldCoords;
 import jangl.io.keyboard.Keyboard;
 import jangl.shapes.Transform;
-import jangl.sound.SoundState;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -65,13 +64,12 @@ public class LaserGun implements AutoCloseable {
     }
 
     private void spawnLaser(Transform playerTransform) {
-        if (Keyboard.getKeyDown(GLFW.GLFW_KEY_SPACE) && !this.cooldown.onCooldown()) {
-            if (!this.overheat.canFire()) {
-                SoundPlayer.playSound("overheat");
-                this.cooldown.activate();
-                return;
-            }
+        if (!this.overheat.canFire()) {
+            SoundPlayer.playSound("overheat");
+            this.cooldown.activate();
+        }
 
+        else if (Keyboard.getKeyDown(GLFW.GLFW_KEY_SPACE) && !this.cooldown.onCooldown()) {
             this.lasers.add(
                     new Laser(this.walls, this.aliens, playerTransform.getCenter(), playerTransform.getLocalRotationAngle(), this.speed)
             );
