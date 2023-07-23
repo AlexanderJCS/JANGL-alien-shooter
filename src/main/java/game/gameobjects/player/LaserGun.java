@@ -1,5 +1,6 @@
 package game.gameobjects.player;
 
+import game.SoundPlayer;
 import game.gameobjects.Enemy;
 import game.gameobjects.helper.Cooldown;
 import game.gameobjects.Wall;
@@ -15,7 +16,6 @@ import java.util.List;
 public class LaserGun implements AutoCloseable {
     private static final float LASER_DELETION_RANGE = Math.max(WorldCoords.getMiddle().x, WorldCoords.getMiddle().y) * 2 + 1;
     private final Cooldown cooldown;
-    private final Sound sound;
     private final float speed;
     private final List<Laser> lasers;
     private final List<Wall> walls;
@@ -31,8 +31,7 @@ public class LaserGun implements AutoCloseable {
         // Set the cooldown to 0.05 for a machine gun. Set the cooldown to 0 (or near 0)
         // for the laser equivalent of the A-10 Warthog
         this.cooldown = new Cooldown(0.2f);
-        this.sound = new Sound("src/main/resources/sounds/shoot.ogg");
-        this.sound.setVolume(0.3f);
+        SoundPlayer.setVolume("shoot", 0.3f);
     }
 
     public void draw() {
@@ -65,7 +64,7 @@ public class LaserGun implements AutoCloseable {
             );
 
             this.cooldown.activate();
-            this.sound.play();
+            SoundPlayer.playSound("shoot");
         }
     }
 
@@ -88,8 +87,6 @@ public class LaserGun implements AutoCloseable {
 
     @Override
     public void close() {
-        this.sound.close();
-
         for (Laser laser : this.lasers) {
             laser.close();
         }

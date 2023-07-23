@@ -10,13 +10,13 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Map implements AutoCloseable {
+public class GameMap implements AutoCloseable {
     public static final float CUBE_DIMENSIONS = 0.4f;
     private final List<Wall> walls;
     private final List<WorldCoords> spawnLocations;
     private final Floor floor;
 
-    public Map() {
+    public GameMap() {
         TextureBuilder map = new TextureBuilder().setImagePath("src/main/resources/map.png");
         WorldCoords topLeft = new WorldCoords(
                 -1 * map.getWidth() / 2f * CUBE_DIMENSIONS,

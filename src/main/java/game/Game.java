@@ -8,18 +8,17 @@ import jangl.graphics.font.Font;
 import jangl.graphics.font.Text;
 import jangl.io.Window;
 import jangl.time.Clock;
-import org.lwjgl.glfw.GLFW;
 
 public class Game implements AutoCloseable {
     private final Player player;
     private final EnemySpawner enemySpawner;
-    private final Map map;
+    private final GameMap gameMap;
     private final Text enemiesCounter;
 
     public Game() {
-        this.map = new Map();
-        this.enemySpawner = new EnemySpawner(null, this.map);
-        this.player = new Player(this.map.getWalls(), this.enemySpawner.getEnemyList(), 0.8f);
+        this.gameMap = new GameMap();
+        this.enemySpawner = new EnemySpawner(null, this.gameMap);
+        this.player = new Player(this.gameMap.getWalls(), this.enemySpawner.getEnemyList(), 0.8f);
         this.enemySpawner.setPlayer(this.player);
 
         Font arial = new Font("src/main/resources/font/arial.fnt", "src/main/resources/font/arial.png");
@@ -42,8 +41,8 @@ public class Game implements AutoCloseable {
     public void draw() {
         Window.clear();
 
-        this.map.drawFloor();
-        this.map.drawWalls();
+        this.gameMap.drawFloor();
+        this.gameMap.drawWalls();
 
         this.player.draw();
         this.enemySpawner.draw();
@@ -66,6 +65,6 @@ public class Game implements AutoCloseable {
     public void close() {
         this.player.close();
         this.enemySpawner.close();
-        this.map.close();
+        this.gameMap.close();
     }
 }

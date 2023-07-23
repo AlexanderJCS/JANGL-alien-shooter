@@ -8,6 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TextureMap {
+    private TextureMap() {
+
+    }
+
     private static final Map<String, Texture> TEXTURE_MAP = new HashMap<>(){{
         put(
                 "white",

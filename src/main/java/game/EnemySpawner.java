@@ -4,6 +4,7 @@ import game.gameobjects.Enemy;
 import game.gameobjects.helper.Cooldown;
 import game.gameobjects.player.Player;
 import jangl.coords.WorldCoords;
+import jangl.sound.Sound;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,18 +15,18 @@ public class EnemySpawner implements AutoCloseable {
     private static final float BASE_SPEED = 0.7f;
     private int waveNumber;
     private final List<Enemy> enemies;
-    private final Map map;
+    private final GameMap gameMap;
     private Player player;
     private final Cooldown waveCooldown;
 
 
-    public EnemySpawner(Player player, Map map) {
+    public EnemySpawner(Player player, GameMap gameMap) {
         this.waveNumber = 1;
         this.enemies = new ArrayList<>();
         this.random = new Random();
 
         this.player = player;
-        this.map = map;
+        this.gameMap = gameMap;
 
         this.waveCooldown = new Cooldown(30);
     }
@@ -47,11 +48,9 @@ public class EnemySpawner implements AutoCloseable {
         float randomness = speed / 10;
 
         int numEnemies = (int) Math.round(Math.pow(this.waveNumber, 1.15));
-        List<WorldCoords> spawnLocations = this.map.getSpawnLocations();
+        List<WorldCoords> spawnLocations = this.gameMap.getSpawnLocations();
 
         for (int i = 0; i < numEnemies; i++) {
-            this.player.getRect().getTransform().setPos(new WorldCoords(0, 0));
-
             int spawnLocationIndex = this.random.nextInt(spawnLocations.size());
             WorldCoords spawnLocation = new WorldCoords(
                     spawnLocations.get(spawnLocationIndex).x,
@@ -59,15 +58,15 @@ public class EnemySpawner implements AutoCloseable {
             );
 
             // Add some randomness so large clumps of enemies aren't perfectly stacked atop one another
-            float randX = this.random.nextFloat(Map.CUBE_DIMENSIONS / 2);
+            float randX = this.random.nextFloat(GameMap.CUBE_DIMENSIONS / 2);
             spawnLocation.x += randX - randX / 2;
-            float randY = this.random.nextFloat(Map.CUBE_DIMENSIONS / 2);
+            float randY = this.random.nextFloat(GameMap.CUBE_DIMENSIONS / 2);
             spawnLocation.y += randY - randY / 2;
 
             this.enemies.add(
                     new Enemy(
                             spawnLocation,
-                            this.player, this.map.getWalls(),
+                            this.player, this.gameMap.getWalls(),
                             speed - this.random.nextFloat(randomness)
                     )
             );
@@ -80,7 +79,13 @@ public class EnemySpawner implements AutoCloseable {
     public void update() {
         this.waveCooldown.update();
 
+        float currentCooldown = this.waveCooldown.getCurrentCooldown();
+        if (currentCooldown <= 5 && currentCooldown % 1 < 0.01) {
+            SoundPlayer.playSound("round_almost_done");
+        }
+
         if (this.enemies.size() == 0 || !this.waveCooldown.onCooldown()) {
+            SoundPlayer.playSound("round_done");
             this.spawnNextWave();
         }
 
