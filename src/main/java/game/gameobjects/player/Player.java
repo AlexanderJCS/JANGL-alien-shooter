@@ -3,7 +3,7 @@ package game.gameobjects.player;
 import game.gameobjects.Enemy;
 import game.gameobjects.GameObject;
 import game.gameobjects.Wall;
-import game.gameobjects.helper.HealthContainer;
+import helper.HealthContainer;
 import jangl.coords.WorldCoords;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.premade.TextureShaderVert;

@@ -1,7 +1,7 @@
 package game;
 
 import game.gameobjects.Enemy;
-import game.gameobjects.helper.Cooldown;
+import helper.Cooldown;
 import game.gameobjects.player.Player;
 import jangl.coords.WorldCoords;
 

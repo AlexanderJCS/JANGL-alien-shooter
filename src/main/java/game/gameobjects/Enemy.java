@@ -1,8 +1,8 @@
 package game.gameobjects;
 
-import game.gameobjects.helper.Cooldown;
-import game.gameobjects.helper.Destroyable;
-import game.gameobjects.helper.HealthContainer;
+import helper.Cooldown;
+import helper.Destroyable;
+import helper.HealthContainer;
 import game.gameobjects.player.Player;
 import jangl.coords.WorldCoords;
 import jangl.shapes.Rect;

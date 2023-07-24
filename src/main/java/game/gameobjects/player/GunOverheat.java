@@ -1,6 +1,5 @@
 package game.gameobjects.player;
 
-import game.gameobjects.helper.Cooldown;
 import jangl.time.Clock;
 
 public class GunOverheat {

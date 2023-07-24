@@ -1,7 +1,7 @@
 package game.gameobjects.player;
 
 import game.gameobjects.Enemy;
-import game.gameobjects.helper.Destroyable;
+import helper.Destroyable;
 import game.gameobjects.GameObject;
 import game.gameobjects.Wall;
 import jangl.coords.WorldCoords;

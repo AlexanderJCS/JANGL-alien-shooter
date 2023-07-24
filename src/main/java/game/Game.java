@@ -37,7 +37,7 @@ public class Game implements AutoCloseable {
         this.player.update();
         this.enemySpawner.update();
 
-        String enemiesNumberString = "Enemies: " + this.enemySpawner.getEnemyList().size() + " | Time to next wave: " + Math.round(this.enemySpawner.timeToNextWave()) + " | Health: " + Math.round(this.player.getHealth());
+        String enemiesNumberString = "Enemies: " + this.enemySpawner.getEnemyList().size() + " | Time to next wave: " + Math.round(this.enemySpawner.timeToNextWave()) + " | Health: " + (int) Math.ceil(this.player.getHealth());
         if (!this.enemiesCounter.getText().equals(enemiesNumberString)) {
             this.enemiesCounter.setText(enemiesNumberString);
         }
@@ -67,7 +67,7 @@ public class Game implements AutoCloseable {
     }
 
     public void run() {
-        while (Window.shouldRun()) {
+        while (Window.shouldRun() && this.player.getHealth() > 0) {
             this.pauseCheck(Keyboard.getEvents());
             this.draw();
 
@@ -86,5 +86,7 @@ public class Game implements AutoCloseable {
         this.player.close();
         this.enemySpawner.close();
         this.gameMap.close();
+        this.enemiesCounter.getFont().close();
+        this.enemiesCounter.close();
     }
 }

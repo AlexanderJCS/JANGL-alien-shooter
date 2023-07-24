@@ -10,9 +10,12 @@ public class Main {
         Window.setVsync(true);
         Window.setIcon(new TextureBuilder().setImagePath("src/main/resources/icon.png"));
 
-        Game game = new Game();
-        game.run();
-        game.close();
+        while (Window.shouldRun()) {
+            Game game = new Game();
+            game.run();
+            game.close();
+            System.gc();
+        }
 
         Window.close();
     }

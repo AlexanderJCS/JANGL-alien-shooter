@@ -2,7 +2,7 @@ package game.gameobjects.player;
 
 import game.SoundPlayer;
 import game.gameobjects.Enemy;
-import game.gameobjects.helper.Cooldown;
+import helper.Cooldown;
 import game.gameobjects.Wall;
 import jangl.coords.WorldCoords;
 import jangl.io.keyboard.Keyboard;
