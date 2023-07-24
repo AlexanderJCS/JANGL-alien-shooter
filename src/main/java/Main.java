@@ -14,7 +14,6 @@ public class Main {
             Game game = new Game();
             game.run();
             game.close();
-            System.gc();
         }
 
         Window.close();
