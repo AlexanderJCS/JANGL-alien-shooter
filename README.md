@@ -4,6 +4,8 @@ This is a game where you defeat waves of aliens (the texture doesn't look like a
 
 Waves spawn periodically. The wave size and enemy speed increases exponentially per wave.
 
+![image](https://github.com/AlexanderJCS/JANGL-alien-shooter/assets/98898166/40504161-c7cf-49af-860a-72d5b23ed926)
+
 ## Made with JANGL
 
 This project is made with my graphics library, JANGL. See more information [here](https://github.com/AlexanderJCS/JANGL).
