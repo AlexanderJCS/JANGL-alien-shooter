@@ -4,6 +4,10 @@ This is a game where you defeat waves of aliens (the texture doesn't look like a
 
 Waves spawn periodically. The wave size and enemy speed increases exponentially per wave.
 
+## Made with JANGL
+
+This project is made with my graphics library, JANGL. See more information [here](https://github.com/AlexanderJCS/JANGL).
+
 ## Support
 
 Since macOS does not support OpenGL versions after 4.1, this game is not supported for macOS.
