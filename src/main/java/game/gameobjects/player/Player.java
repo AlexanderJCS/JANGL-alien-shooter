@@ -70,6 +70,11 @@ public class Player extends GameObject {
         return this.healthContainer.getHealth();
     }
 
+    public float getMaxHealth() {
+        return this.healthContainer.getMaxHealth();
+
+    }
+
     /**
      * @param movement The WorldCoords movement. WARNING: only have one axis at a time set to a non-zero value.
      * @param iterations The number of iterations to have

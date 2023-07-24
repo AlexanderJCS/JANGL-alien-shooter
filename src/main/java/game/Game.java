@@ -11,6 +11,7 @@ import jangl.io.keyboard.KeyEvent;
 import jangl.io.keyboard.Keyboard;
 import jangl.time.Clock;
 import org.lwjgl.glfw.GLFW;
+import ui.UIDisplay;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class Game implements AutoCloseable {
     private final GameMap gameMap;
     private final Text enemiesCounter;
     private boolean paused;
+    private final UIDisplay uiDisplay;
 
     public Game() {
         this.gameMap = new GameMap();
@@ -31,17 +33,20 @@ public class Game implements AutoCloseable {
         arial.setObeyCamera(false);
         this.enemiesCounter = new Text(new WorldCoords(0.05f, 0.95f), arial, 0.05f, "");
         this.paused = false;
+
+        this.uiDisplay = new UIDisplay(this.player, this.enemySpawner);
     }
 
     public void update() {
         this.player.update();
         this.enemySpawner.update();
 
-        String enemiesNumberString = "Enemies: " + this.enemySpawner.getEnemyList().size() + " | Time to next wave: " + Math.round(this.enemySpawner.timeToNextWave()) + " | Health: " + (int) Math.ceil(this.player.getHealth());
+        String enemiesNumberString = "Enemies: " + this.enemySpawner.getEnemyList().size();
         if (!this.enemiesCounter.getText().equals(enemiesNumberString)) {
             this.enemiesCounter.setText(enemiesNumberString);
         }
 
+        this.uiDisplay.update();
         Camera.setCenter(this.player.getRect().getTransform().getCenter());
     }
 
@@ -55,6 +60,8 @@ public class Game implements AutoCloseable {
         this.enemySpawner.draw();
 
         this.enemiesCounter.draw();
+
+        this.uiDisplay.draw();
     }
 
     public void pauseCheck(List<KeyEvent> keyEvents) {
@@ -88,5 +95,6 @@ public class Game implements AutoCloseable {
         this.gameMap.close();
         this.enemiesCounter.getFont().close();
         this.enemiesCounter.close();
+        this.uiDisplay.close();
     }
 }

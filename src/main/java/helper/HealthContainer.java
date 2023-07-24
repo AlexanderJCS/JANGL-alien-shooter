@@ -39,4 +39,8 @@ public class HealthContainer {
     public float getHealth() {
         return this.health;
     }
+
+    public float getMaxHealth() {
+        return maxHealth;
+    }
 }
