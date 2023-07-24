@@ -4,6 +4,7 @@ import game.gameobjects.Enemy;
 import helper.Cooldown;
 import game.gameobjects.player.Player;
 import jangl.coords.WorldCoords;
+import jangl.sound.SoundState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +84,7 @@ public class EnemySpawner implements AutoCloseable {
         this.waveCooldown.update();
 
         float currentCooldown = this.waveCooldown.getCurrentCooldown();
-        if (currentCooldown <= 5 && currentCooldown % 1 < 0.01) {
+        if (currentCooldown <= 5 && currentCooldown % 1 < 0.05 && SoundPlayer.getSound("round_almost_done").getState() != SoundState.PLAYING) {
             SoundPlayer.playSound("round_almost_done");
         }
 
