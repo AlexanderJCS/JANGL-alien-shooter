@@ -29,13 +29,16 @@ public class TextureMap {
                 )
         );
 
+        // Game objects
         put("player", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/game_objects/player.png")));
         put("enemy", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/game_objects/enemy.png")));
         put("wall", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/game_objects/wall.png")));
         put("floor", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/game_objects/floor.png")));
 
-        put("heart", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/ui/heart.png")));
-        put("clock", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/ui/clock.png")));
+        // UI
+        put("heart", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/ui/heart.png").setObeyCamera(false)));
+        put("clock", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/ui/clock.png").setObeyCamera(false)));
+        put("enemyUI", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/ui/enemy.png").setObeyCamera(false)));
     }};
 
     public static Texture get(String id) {

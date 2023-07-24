@@ -19,7 +19,7 @@ public class Game implements AutoCloseable {
     private final Player player;
     private final EnemySpawner enemySpawner;
     private final GameMap gameMap;
-    private final Text enemiesCounter;
+    private final Text infoText;
     private boolean paused;
     private final UIDisplay uiDisplay;
 
@@ -31,7 +31,7 @@ public class Game implements AutoCloseable {
 
         Font arial = new Font("src/main/resources/font/arial.fnt", "src/main/resources/font/arial.png");
         arial.setObeyCamera(false);
-        this.enemiesCounter = new Text(new WorldCoords(0.05f, 0.95f), arial, 0.05f, "");
+        this.infoText = new Text(new WorldCoords(0.05f, 0.95f), arial, 0.05f, "");
         this.paused = false;
 
         this.uiDisplay = new UIDisplay(this.player, this.enemySpawner);
@@ -41,9 +41,9 @@ public class Game implements AutoCloseable {
         this.player.update();
         this.enemySpawner.update();
 
-        String enemiesNumberString = "Enemies: " + this.enemySpawner.getEnemyList().size();
-        if (!this.enemiesCounter.getText().equals(enemiesNumberString)) {
-            this.enemiesCounter.setText(enemiesNumberString);
+        String newInfoTextMessage = "";
+        if (!this.infoText.getText().equals(newInfoTextMessage)) {
+            this.infoText.setText(newInfoTextMessage);
         }
 
         this.uiDisplay.update();
@@ -59,7 +59,7 @@ public class Game implements AutoCloseable {
         this.player.draw();
         this.enemySpawner.draw();
 
-        this.enemiesCounter.draw();
+        this.infoText.draw();
 
         this.uiDisplay.draw();
     }
@@ -68,7 +68,7 @@ public class Game implements AutoCloseable {
         for (KeyEvent event : keyEvents) {
             if (event.action == GLFW.GLFW_PRESS && event.key == GLFW.GLFW_KEY_P) {
                 this.paused = !this.paused;
-                this.enemiesCounter.setText(this.enemiesCounter.getText() + " | PAUSED");
+                this.infoText.setText("PAUSED");
             }
         }
     }
@@ -93,8 +93,8 @@ public class Game implements AutoCloseable {
         this.player.close();
         this.enemySpawner.close();
         this.gameMap.close();
-        this.enemiesCounter.getFont().close();
-        this.enemiesCounter.close();
+        this.infoText.getFont().close();
+        this.infoText.close();
         this.uiDisplay.close();
     }
 }

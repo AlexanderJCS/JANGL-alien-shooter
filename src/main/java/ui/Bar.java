@@ -1,5 +1,6 @@
 package ui;
 
+import game.TextureMap;
 import jangl.color.Color;
 import jangl.color.ColorFactory;
 import jangl.coords.WorldCoords;
@@ -21,16 +22,14 @@ public class Bar implements AutoCloseable {
     private final Rect barOutlineRect;
     private final Texture barOutlineTexture;
 
-    public Bar(Texture icon, WorldCoords topLeft, float width, float height, Color barColor) {
+    public Bar(String iconID, WorldCoords topLeft, float width, float height, Color barColor) {
         this.icon = new Image(
                 new Rect(
                         topLeft, height, height
                 ),
 
-                icon
+                TextureMap.get(iconID)
         );
-
-        icon.getShaderProgram().getVertexShader().setObeyCamera(false);
 
         WorldCoords barTopLeft = new WorldCoords(topLeft.x + height + 0.01f, topLeft.y);
 
