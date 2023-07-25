@@ -1,8 +1,6 @@
 package game.gameobjects;
 
 import game.TextureMap;
-import jangl.coords.WorldCoords;
-import jangl.graphics.Camera;
 import jangl.graphics.textures.Image;
 import jangl.graphics.textures.Texture;
 import jangl.shapes.Rect;
