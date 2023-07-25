@@ -83,11 +83,10 @@ public class Enemy extends GameObject implements Destroyable {
         transform.shift(movement);
 
         for (Wall wall : this.walls) {
-            // Treat the two objects as circles, where their radii is the farthest point from the center. If the circles
-            // are not colliding, then it's impossible for the shapes to be colliding. This optimization makes the game
-            // run much smoother.
-            // In my experience, I went from getting < 20 FPS with 2000 enemies to > 120 FPS with 2000 enemies.
-            // The time it takes for the game to update went from 0.04 seconds to 0.003 seconds (over 10x!)
+            // Treat the two objects as circles, where their radii is the farthest point from the center.
+            // If the two circles are not colliding, then the rectangles cannot be colliding.
+            // JANGL already provides an optimization similar to this, but since it needs to be general purpose
+            // (i.e., for all shapes), it's about 3x slower than doing this.
             Rect wallRect = wall.getRect();
             Rect thisRect = this.getRect();
 

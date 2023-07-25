@@ -24,19 +24,7 @@ public class GameObject implements AutoCloseable {
     }
 
     public void draw() {
-        // Implement a quick form of culling
-        WorldCoords cameraCenter = Camera.getCenter();
-        Rect rect = this.getRect();
-        WorldCoords rectCenter = rect.getTransform().getCenter();
-
-        double rectRadiusSquared = Math.pow(rect.getWidth() / 2, 2) + Math.pow(rect.getHeight() / 2, 2);
-        double windowRadiusSquared = Math.pow(WorldCoords.getMiddle().x, 2) + Math.pow(WorldCoords.getMiddle().y, 2);
-        double distanceSquared = Math.pow(cameraCenter.x - rectCenter.x, 2) + Math.pow(cameraCenter.y - rectCenter.y, 2);
-
-        // Square roots are needed to prevent objects from being culled near the edges of the screen when they shouldn't
-        if (Math.sqrt(rectRadiusSquared) + Math.sqrt(windowRadiusSquared) >= Math.sqrt(distanceSquared)) {
-            this.image.draw();
-        }
+        this.image.draw();
     }
 
     public void update() {
