@@ -1,5 +1,6 @@
 package helper;
 
+import game.SoundPlayer;
 import jangl.time.Clock;
 
 public class HealthContainer {
@@ -7,12 +8,14 @@ public class HealthContainer {
     private float health;
     private final Cooldown cooldown;
     private final float regen;
+    private final String soundID;
 
-    public HealthContainer(float maxHealth, float cooldownTime, float regen) {
+    public HealthContainer(float maxHealth, float cooldownTime, float regen, String soundID) {
         this.cooldown = new Cooldown(cooldownTime);
         this.maxHealth = maxHealth;
         this.health = maxHealth;
         this.regen = regen;
+        this.soundID = soundID;
     }
 
     public void update() {
@@ -26,6 +29,10 @@ public class HealthContainer {
     public void takeDamage(float damage) {
         if (this.cooldown.onCooldown()) {
             return;
+        }
+
+        if (damage > 0 && this.soundID != null) {
+            SoundPlayer.playSound(this.soundID);
         }
 
         this.health = Math.max(this.health - damage, 0);

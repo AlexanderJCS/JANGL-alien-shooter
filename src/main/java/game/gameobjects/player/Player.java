@@ -34,7 +34,7 @@ public class Player extends GameObject {
 
         this.getTexture().useDefaultShader(false);
         this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new OverheatShader(this.laserGun.getOverheat()));
-        this.healthContainer = new HealthContainer(10, 1.5f, 0.1f);
+        this.healthContainer = new HealthContainer(10, 1.5f, 0.1f, "hurt");
     }
 
     @Override
