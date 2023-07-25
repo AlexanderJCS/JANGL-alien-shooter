@@ -20,8 +20,8 @@ public class LaserGun implements AutoCloseable {
     private final List<Laser> lasers;
     private final List<Wall> walls;
     private final List<Enemy> aliens;
-    private final GunOverheat overheat;
     private final UpgradeShop upgradeShop;
+    private final GunOverheat overheat;
 
     public LaserGun(List<Wall> walls, List<Enemy> aliens, UpgradeShop upgradeShop) {
         this.walls = walls;
@@ -48,11 +48,11 @@ public class LaserGun implements AutoCloseable {
         return this.overheat;
     }
 
-    public void update(Transform playerTransform) {
+    public void update(Transform playerTransform, PlayerBank bank) {
         this.cooldown.update();
         this.overheat.update();
 
-        this.spawnLaser(playerTransform);
+        this.spawnLaser(bank, playerTransform);
         this.cleanUpLasers(playerTransform);
 
         for (int i = this.lasers.size() - 1; i >= 0; i--) {
@@ -66,7 +66,7 @@ public class LaserGun implements AutoCloseable {
         }
     }
 
-    private void spawnLaser(Transform playerTransform) {
+    private void spawnLaser(PlayerBank bank, Transform playerTransform) {
         if (Keyboard.getKeyDown(GLFW.GLFW_KEY_SPACE) && !this.cooldown.onCooldown()) {
             if (!this.overheat.canFire()) {
                 SoundPlayer.playSound("overheat");
@@ -78,6 +78,7 @@ public class LaserGun implements AutoCloseable {
                     new Laser(
                             this.walls,
                             this.aliens,
+                            bank,
                             playerTransform.getCenter(),
                             playerTransform.getLocalRotationAngle(),
                             this.speed,

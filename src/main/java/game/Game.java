@@ -7,13 +7,12 @@ import jangl.coords.WorldCoords;
 import jangl.graphics.Camera;
 import jangl.graphics.font.Font;
 import jangl.graphics.font.Text;
-import jangl.graphics.models.Model;
 import jangl.io.Window;
 import jangl.io.keyboard.KeyEvent;
 import jangl.io.keyboard.Keyboard;
 import jangl.time.Clock;
 import org.lwjgl.glfw.GLFW;
-import ui.UIDisplay;
+import ui.hud.UIDisplay;
 
 import java.util.List;
 
@@ -44,10 +43,7 @@ public class Game implements AutoCloseable {
         this.player.update();
         this.enemySpawner.update();
 
-        String newInfoTextMessage = "";
-        if (!this.infoText.getText().equals(newInfoTextMessage)) {
-            this.infoText.setText(newInfoTextMessage);
-        }
+        this.infoText.setText("");
 
         this.uiDisplay.update();
         Camera.setCenter(this.player.getRect().getTransform().getCenter());

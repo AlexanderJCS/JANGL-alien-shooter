@@ -26,6 +26,7 @@ public class Player extends GameObject {
     private final ShaderProgram shaderProgram;
     private final HealthContainer healthContainer;
     private final UpgradeShop upgradeShop;
+    private final PlayerBank bank;
 
     public Player(List<Wall> walls, List<Enemy> aliens, float speed) {
         super(new Rect(new WorldCoords(0, 0), 0.075f, 0.075f), "player");
@@ -39,6 +40,7 @@ public class Player extends GameObject {
         this.getTexture().useDefaultShader(false);
         this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new OverheatShader(this.laserGun.getOverheat()));
         this.healthContainer = new HealthContainer(10, 1.5f, 0.1f, "hurt");
+        this.bank = new PlayerBank();
     }
 
     @Override
@@ -68,25 +70,12 @@ public class Player extends GameObject {
         this.move();
         this.setRotation();
 
-        this.laserGun.update(this.getRect().getTransform());
+        this.laserGun.update(this.getRect().getTransform(), this.getBank());
         this.healthContainer.update();
 
         if (Keyboard.getKeyDown(GLFW.GLFW_KEY_TAB)) {
             this.upgradeShop.update();
         }
-    }
-
-    public void dealDamage(float damage) {
-        this.healthContainer.takeDamage(damage);
-    }
-
-    public float getHealth() {
-        return this.healthContainer.getHealth();
-    }
-
-    public float getMaxHealth() {
-        return this.healthContainer.getMaxHealth();
-
     }
 
     /**
@@ -154,6 +143,22 @@ public class Player extends GameObject {
 
         float angle = (float) (Math.atan2(mouseCoords.y - middle.y, mouseCoords.x - middle.x));
         this.getRect().getTransform().setLocalRotation(angle);
+    }
+
+    public void dealDamage(float damage) {
+        this.healthContainer.takeDamage(damage);
+    }
+
+    public float getHealth() {
+        return this.healthContainer.getHealth();
+    }
+
+    public float getMaxHealth() {
+        return this.healthContainer.getMaxHealth();
+    }
+
+    public PlayerBank getBank() {
+        return this.bank;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package ui;
+package ui.hud;
 
 import game.TextureMap;
 import jangl.color.Color;

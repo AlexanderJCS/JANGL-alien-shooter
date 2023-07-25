@@ -16,9 +16,10 @@ public class Laser extends GameObject implements Destroyable {
     private final List<Enemy> aliens;
     private final float shiftX;
     private final float shiftY;
+    private final PlayerBank bank;
     private int pierce;
 
-    public Laser(List<Wall> walls, List<Enemy> aliens, WorldCoords origin, float angle, float speed, int pierce) {
+    public Laser(List<Wall> walls, List<Enemy> aliens, PlayerBank bank, WorldCoords origin, float angle, float speed, int pierce) {
         super(new Rect(new WorldCoords(0, 0), 0.04f, 0.0075f), "green");
 
         this.walls = walls;
@@ -31,6 +32,7 @@ public class Laser extends GameObject implements Destroyable {
         this.shiftY = (float) (speed * Math.sin(angle));
 
         this.pierce = pierce;
+        this.bank = bank;
     }
 
     @Override
@@ -59,6 +61,11 @@ public class Laser extends GameObject implements Destroyable {
             if (!alien.onCooldown() && Shape.collides(this.getRect(), alien.getRect()) && this.pierce > 0) {
                 alien.takeDamage(8);
                 this.pierce--;
+
+                // Award the player with money for killing aliens
+                if (alien.shouldDestroy()) {
+                    this.bank.addMoney(1);
+                }
             }
         }
     }
