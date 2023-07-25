@@ -8,6 +8,7 @@ import jangl.coords.WorldCoords;
 import jangl.io.keyboard.Keyboard;
 import jangl.shapes.Transform;
 import org.lwjgl.glfw.GLFW;
+import ui.upgrades.UpgradeShop;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +21,9 @@ public class LaserGun implements AutoCloseable {
     private final List<Wall> walls;
     private final List<Enemy> aliens;
     private final GunOverheat overheat;
+    private final UpgradeShop upgradeShop;
 
-    public LaserGun(List<Wall> walls, List<Enemy> aliens) {
+    public LaserGun(List<Wall> walls, List<Enemy> aliens, UpgradeShop upgradeShop) {
         this.walls = walls;
         this.aliens = aliens;
 
@@ -33,6 +35,7 @@ public class LaserGun implements AutoCloseable {
         this.cooldown = new Cooldown(0.15f);
         SoundPlayer.getSound("shoot").setVolume(0.3f);
         this.overheat = new GunOverheat(0.08f, 0.3f);
+        this.upgradeShop = upgradeShop;
     }
 
     public void draw() {
@@ -72,7 +75,14 @@ public class LaserGun implements AutoCloseable {
             }
 
             this.lasers.add(
-                    new Laser(this.walls, this.aliens, playerTransform.getCenter(), playerTransform.getLocalRotationAngle(), this.speed)
+                    new Laser(
+                            this.walls,
+                            this.aliens,
+                            playerTransform.getCenter(),
+                            playerTransform.getLocalRotationAngle(),
+                            this.speed,
+                            this.upgradeShop.getUpgradeLevel("pierce")
+                    )
             );
 
             this.cooldown.activate();

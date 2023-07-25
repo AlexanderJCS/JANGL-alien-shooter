@@ -1,37 +1,31 @@
-package ui;
+package ui.upgrades;
 
 import helper.Consts;
 import helper.EventsManager;
 import jangl.color.ColorFactory;
 import jangl.coords.WorldCoords;
-import jangl.graphics.font.Font;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.premade.ColorShader;
-import jangl.graphics.shaders.premade.DefaultVertShader;
 import jangl.io.mouse.MouseEvent;
 import jangl.shapes.Rect;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UpgradeShop implements AutoCloseable {
-    private final List<UpgradeItem> upgradeItems;
-    private final Font font;
+    private final Map<String, UpgradeItem> upgradeItems;
     private final Rect background;
     private final ShaderProgram backgroundShader;
 
     public UpgradeShop() {
-        this.font = new Font(
-                "src/main/resources/font/arial.fnt", "src/main/resources/font/arial.png"
-        );
-
-        this.upgradeItems = new ArrayList<>();
-        this.upgradeItems.add(
+        this.upgradeItems = new HashMap<>();
+        this.upgradeItems.put(
+                "pierce",
                 new UpgradeItem(
                         new WorldCoords(0.1f, 0.9f),
-                        "enemyUI",
+                        "pierce",
                         Consts.FONT,
-                        "test",
+                        "Pierce",
                         0
                 )
         );
@@ -46,7 +40,7 @@ public class UpgradeShop implements AutoCloseable {
     public void draw() {
         this.background.draw(this.backgroundShader);
 
-        for (UpgradeItem item : this.upgradeItems) {
+        for (UpgradeItem item : this.upgradeItems.values()) {
             item.draw();
         }
     }
@@ -54,17 +48,24 @@ public class UpgradeShop implements AutoCloseable {
     public void update() {
         // Increment the price by 1 if the item was bought
         for (MouseEvent event : EventsManager.getMouseEvents()) {
-            for (UpgradeItem item : this.upgradeItems) {
-                if (item.wasSelected(event)) {
-                    item.setPrice(item.getPrice() + 1);
+            for (UpgradeItem item : this.upgradeItems.values()) {
+                if (!item.wasSelected(event)) {
+                    continue;
                 }
+
+                item.setPrice(item.getPrice() + 1);
+                item.incrementUpgradeLevel();
             }
         }
     }
 
+    public int getUpgradeLevel(String id) {
+        return this.upgradeItems.get(id).getUpgradeLevel();
+    }
+
     @Override
     public void close() {
-        for (UpgradeItem item : this.upgradeItems) {
+        for (UpgradeItem item : this.upgradeItems.values()) {
             item.close();
         }
 

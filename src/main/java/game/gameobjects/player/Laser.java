@@ -9,18 +9,16 @@ import jangl.shapes.Rect;
 import jangl.shapes.Shape;
 import jangl.time.Clock;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Laser extends GameObject implements Destroyable {
-    private boolean shouldDestroy;
     private final List<Wall> walls;
     private final List<Enemy> aliens;
     private final float shiftX;
     private final float shiftY;
     private int pierce;
 
-    public Laser(List<Wall> walls, List<Enemy> aliens, WorldCoords origin, float angle, float speed) {
+    public Laser(List<Wall> walls, List<Enemy> aliens, WorldCoords origin, float angle, float speed, int pierce) {
         super(new Rect(new WorldCoords(0, 0), 0.04f, 0.0075f), "green");
 
         this.walls = walls;
@@ -32,27 +30,17 @@ public class Laser extends GameObject implements Destroyable {
         this.shiftX = (float) (speed * Math.cos(angle));
         this.shiftY = (float) (speed * Math.sin(angle));
 
-        this.shouldDestroy = false;
+        this.pierce = pierce;
     }
 
     @Override
     public boolean shouldDestroy() {
-        if (this.shouldDestroy) {
+        if (this.pierce <= 0) {
             return true;
         }
 
-        List<GameObject> collide = new ArrayList<>(this.walls);
-        collide.addAll(this.aliens);
-
-        for (GameObject object : collide) {
-            if (object.getClass() == Enemy.class) {
-                Enemy alien = (Enemy) object;
-                if (alien.onCooldown()) {
-                    continue;
-                }
-            }
-
-            if (Shape.collides(object.getRect(), this.getRect())) {
+        for (Wall wall : this.walls) {
+            if (Shape.collides(wall.getRect(), this.getRect())) {
                 return true;
             }
         }
@@ -68,9 +56,9 @@ public class Laser extends GameObject implements Destroyable {
         );
 
         for (Enemy alien : this.aliens) {
-            if (!alien.onCooldown() && Shape.collides(this.getRect(), alien.getRect())) {
+            if (!alien.onCooldown() && Shape.collides(this.getRect(), alien.getRect()) && this.pierce > 0) {
                 alien.takeDamage(8);
-                this.shouldDestroy = true;
+                this.pierce--;
             }
         }
     }

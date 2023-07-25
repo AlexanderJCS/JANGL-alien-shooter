@@ -65,6 +65,7 @@ public class Game implements AutoCloseable {
         this.infoText.draw();
 
         this.uiDisplay.draw();
+        this.player.drawItemShop();
     }
 
     public void pauseCheck(List<KeyEvent> keyEvents) {

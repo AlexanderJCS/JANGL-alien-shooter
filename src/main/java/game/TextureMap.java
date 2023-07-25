@@ -39,6 +39,7 @@ public class TextureMap {
         put("heart", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/ui/heart.png").setObeyCamera(false)));
         put("clock", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/ui/clock.png").setObeyCamera(false)));
         put("enemyUI", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/ui/enemy.png").setObeyCamera(false)));
+        put("pierce", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/ui/pierce.png").setObeyCamera(false)));
     }};
 
     public static Texture get(String id) {

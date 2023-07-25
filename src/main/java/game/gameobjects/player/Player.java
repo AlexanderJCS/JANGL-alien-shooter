@@ -15,7 +15,7 @@ import jangl.shapes.Transform;
 import jangl.time.Clock;
 import org.lwjgl.glfw.GLFW;
 import shaders.OverheatShader;
-import ui.UpgradeShop;
+import ui.upgrades.UpgradeShop;
 
 import java.util.List;
 
@@ -30,14 +30,15 @@ public class Player extends GameObject {
     public Player(List<Wall> walls, List<Enemy> aliens, float speed) {
         super(new Rect(new WorldCoords(0, 0), 0.075f, 0.075f), "player");
 
+
+        this.upgradeShop = new UpgradeShop();
+        this.laserGun = new LaserGun(walls, aliens, this.upgradeShop);
         this.speed = speed;
-        this.laserGun = new LaserGun(walls, aliens);
         this.walls = walls;
 
         this.getTexture().useDefaultShader(false);
         this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new OverheatShader(this.laserGun.getOverheat()));
         this.healthContainer = new HealthContainer(10, 1.5f, 0.1f, "hurt");
-        this.upgradeShop = new UpgradeShop();
     }
 
     @Override
@@ -51,7 +52,9 @@ public class Player extends GameObject {
         this.shaderProgram.bind();
         this.image.draw();
         this.shaderProgram.unbind();
+    }
 
+    public void drawItemShop() {
         if (Keyboard.getKeyDown(GLFW.GLFW_KEY_TAB)) {
             this.upgradeShop.draw();
         }

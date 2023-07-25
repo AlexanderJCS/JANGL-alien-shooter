@@ -1,4 +1,4 @@
-package ui;
+package ui.upgrades;
 
 import game.TextureMap;
 import jangl.coords.WorldCoords;
@@ -18,6 +18,7 @@ public class UpgradeItem implements AutoCloseable {
     private final Text text;
     private final String name;
     private float price;
+    private int upgradeLevel;
 
     public UpgradeItem(WorldCoords topLeft, String imageID, Font font, String name, float price) {
         this.image = new Image(
@@ -35,6 +36,7 @@ public class UpgradeItem implements AutoCloseable {
 
         this.name = name;
         this.price = price;
+        this.upgradeLevel = 1;
     }
 
     private static String getTextToDisplay(String name, float price) {
@@ -48,6 +50,14 @@ public class UpgradeItem implements AutoCloseable {
 
     public float getPrice() {
         return this.price;
+    }
+
+    public int getUpgradeLevel() {
+        return this.upgradeLevel;
+    }
+
+    public void incrementUpgradeLevel() {
+        this.upgradeLevel++;
     }
 
     public boolean wasSelected(MouseEvent mouseEvent) {
