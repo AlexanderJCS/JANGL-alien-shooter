@@ -16,9 +16,9 @@ public class Laser extends GameObject implements Destroyable {
     private boolean shouldDestroy;
     private final List<Wall> walls;
     private final List<Enemy> aliens;
-
     private final float shiftX;
     private final float shiftY;
+    private int pierce;
 
     public Laser(List<Wall> walls, List<Enemy> aliens, WorldCoords origin, float angle, float speed) {
         super(new Rect(new WorldCoords(0, 0), 0.04f, 0.0075f), "green");

@@ -1,11 +1,13 @@
 package game;
 
 import game.gameobjects.player.Player;
+import helper.EventsManager;
 import jangl.JANGL;
 import jangl.coords.WorldCoords;
 import jangl.graphics.Camera;
 import jangl.graphics.font.Font;
 import jangl.graphics.font.Text;
+import jangl.graphics.models.Model;
 import jangl.io.Window;
 import jangl.io.keyboard.KeyEvent;
 import jangl.io.keyboard.Keyboard;
@@ -38,6 +40,7 @@ public class Game implements AutoCloseable {
     }
 
     public void update() {
+        EventsManager.getEvents();
         this.player.update();
         this.enemySpawner.update();
 
