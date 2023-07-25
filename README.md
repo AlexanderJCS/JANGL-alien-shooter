@@ -6,6 +6,18 @@ Waves spawn periodically. The wave size and enemy speed increases exponentially 
 
 ![image](https://github.com/AlexanderJCS/JANGL-alien-shooter/assets/98898166/40504161-c7cf-49af-860a-72d5b23ed926)
 
+## Controls
+
+| Key       | Action        |
+|-----------|---------------|
+| W         | Move up       |
+| A         | Move left     |
+| S         | Move down     |
+| D         | Move right    |
+| Space bar | Fire          |
+| P         | Pause/unpause |
+
+
 ## Made with JANGL
 
 This project is made with my graphics library, JANGL. See more information [here](https://github.com/AlexanderJCS/JANGL).
