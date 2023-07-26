@@ -1,6 +1,7 @@
 package game;
 
 import game.gameobjects.player.Player;
+import helper.Consts;
 import helper.EventsManager;
 import jangl.JANGL;
 import jangl.coords.WorldCoords;
@@ -30,9 +31,7 @@ public class Game implements AutoCloseable {
         this.player = new Player(this.gameMap.getWalls(), this.enemySpawner.getEnemyList(), 0.8f);
         this.enemySpawner.setPlayer(this.player);
 
-        Font arial = new Font("src/main/resources/font/arial.fnt", "src/main/resources/font/arial.png");
-        arial.setObeyCamera(false);
-        this.infoText = new Text(new WorldCoords(0.05f, 0.95f), arial, 0.05f, "");
+        this.infoText = new Text(new WorldCoords(0.05f, 0.975f), Consts.FONT, 0.05f, "");
         this.paused = false;
 
         this.uiDisplay = new UIDisplay(this.player, this.enemySpawner);
