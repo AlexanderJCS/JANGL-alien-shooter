@@ -21,7 +21,7 @@ public class TextWithIcon implements AutoCloseable {
         );
 
         WorldCoords textTopLeft = new WorldCoords(
-                topLeft.x + height + 0.01f, topLeft.y
+                topLeft.x + height + 0.01f, topLeft.y - 0.005f
         );
 
         this.text = new Text(
