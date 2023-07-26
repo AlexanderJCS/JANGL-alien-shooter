@@ -31,7 +31,7 @@ public class UpgradeShop implements AutoCloseable {
                         "pierce",
                         Consts.FONT,
                         "Pierce",
-                        0
+                        100
                 )
         );
 
@@ -64,7 +64,7 @@ public class UpgradeShop implements AutoCloseable {
                 }
 
                 this.bank.addMoney(-item.getPrice());
-                item.setPrice(item.getPrice() + 1);
+                item.setPrice(item.getPrice() * 3);
                 item.incrementUpgradeLevel();
                 SoundPlayer.playSound("buy_item");
             }
