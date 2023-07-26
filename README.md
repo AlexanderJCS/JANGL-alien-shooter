@@ -1,6 +1,6 @@
 # JANGL-alien-shooter
 
-This is a game where you defeat waves of aliens (the texture doesn't look like an alien, but come on, you have to call them something).
+This is a game where you defeat waves of aliens.
 
 Waves spawn periodically. The wave size and enemy speed increases exponentially per wave.
 

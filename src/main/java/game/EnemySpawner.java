@@ -39,6 +39,10 @@ public class EnemySpawner implements AutoCloseable {
         return this.waveCooldown.getMaxCooldown();
     }
 
+    public int getWaveNumber() {
+        return this.waveNumber - 1;
+    }
+
     public void setPlayer(Player player) {
         this.player = player;
     }

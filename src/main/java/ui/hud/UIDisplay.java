@@ -14,6 +14,7 @@ public class UIDisplay implements AutoCloseable {
     private final Bar waveBar;
     private final TextWithIcon enemyCounter;
     private final TextWithIcon coinCounter;
+    private final TextWithIcon waveCounter;
 
     public UIDisplay(Player player, EnemySpawner enemySpawner) {
         this.player = player;
@@ -26,6 +27,7 @@ public class UIDisplay implements AutoCloseable {
 
         // Top left
         this.coinCounter = new TextWithIcon(new WorldCoords(0.05f, 0.9f), Consts.FONT, "0", 0.05f, "coin");
+        this.waveCounter = new TextWithIcon(new WorldCoords(0.05f, 0.825f), Consts.FONT, "0", 0.05f, "wave");
     }
 
     public void draw() {
@@ -33,6 +35,7 @@ public class UIDisplay implements AutoCloseable {
         this.waveBar.draw();
         this.enemyCounter.draw();
         this.coinCounter.draw();
+        this.waveCounter.draw();
     }
 
     public void update() {
@@ -40,6 +43,7 @@ public class UIDisplay implements AutoCloseable {
         this.waveBar.setPercentage(this.enemySpawner.timeToNextWave() / this.enemySpawner.waveTime());
         this.enemyCounter.getText().setText(String.valueOf(this.enemySpawner.getEnemyList().size()));
         this.coinCounter.getText().setText(String.valueOf(Math.round(this.player.getBank().getMoney())));
+        this.waveCounter.getText().setText(String.valueOf(this.enemySpawner.getWaveNumber()));
     }
 
     @Override
