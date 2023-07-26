@@ -42,6 +42,7 @@ public class TextureMap {
         put("pierce", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/ui/pierce.png").setObeyCamera(false)));
         put("coin", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/ui/coin.png").setObeyCamera(false)));
         put("wave", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/ui/wave.png").setObeyCamera(false)));
+        put("speed_up", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/ui/speed_up.png").setObeyCamera(false)));
     }};
 
     public static Texture get(String id) {
