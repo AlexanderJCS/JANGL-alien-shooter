@@ -16,6 +16,11 @@ public class Main {
         while (Window.shouldRun()) {
             Game game = new Game();
             game.run();
+
+            if (Window.shouldRun()) {
+                game.diedScreen();
+            }
+
             game.close();
         }
 

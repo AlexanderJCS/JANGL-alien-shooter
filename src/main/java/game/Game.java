@@ -2,14 +2,19 @@ package game;
 
 import game.gameobjects.player.Player;
 import helper.Consts;
+import helper.Cooldown;
 import helper.EventsManager;
 import jangl.JANGL;
+import jangl.color.ColorFactory;
 import jangl.coords.WorldCoords;
 import jangl.graphics.Camera;
 import jangl.graphics.font.Text;
+import jangl.graphics.shaders.ShaderProgram;
+import jangl.graphics.shaders.premade.ColorShader;
 import jangl.io.Window;
 import jangl.io.keyboard.KeyEvent;
 import jangl.io.keyboard.Keyboard;
+import jangl.shapes.Rect;
 import jangl.time.Clock;
 import org.lwjgl.glfw.GLFW;
 import ui.hud.UIDisplay;
@@ -84,6 +89,30 @@ public class Game implements AutoCloseable {
 
             JANGL.update();
         }
+    }
+
+    public void diedScreen() {
+        Text diedText = new Text(
+                new WorldCoords(0.1f, 0.6f),
+                Consts.FONT,
+                0.07f,
+                "You died!\nWAVE No. " + this.enemySpawner.getWaveNumber() + "\nPress SPACE to continue"
+        );
+
+        Rect background = new Rect(new WorldCoords(0, 1), WorldCoords.getMiddle().x * 2, 1);
+        ShaderProgram backgroundShader = new ShaderProgram(new ColorShader(ColorFactory.fromNormalized(0, 0, 0, 0.4f)));
+        backgroundShader.getVertexShader().setObeyCamera(false);
+
+        while (!Keyboard.getKeyDown(GLFW.GLFW_KEY_SPACE) && Window.shouldRun()) {
+            this.draw();
+            background.draw(backgroundShader);
+            diedText.draw();
+            JANGL.update();
+        }
+
+        diedText.close();
+        background.close();
+        backgroundShader.close();
     }
 
     @Override
