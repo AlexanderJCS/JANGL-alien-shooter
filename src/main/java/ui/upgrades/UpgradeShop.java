@@ -64,7 +64,7 @@ public class UpgradeShop implements AutoCloseable {
                 }
 
                 this.bank.addMoney(-item.getPrice());
-                item.setPrice(item.getPrice() * 3);
+                item.setPrice(item.getPrice() * 2);
                 item.incrementUpgradeLevel();
                 SoundPlayer.playSound("buy_item");
             }
