@@ -13,7 +13,7 @@ import org.lwjgl.glfw.GLFW;
 
 public class UpgradeItem implements AutoCloseable {
     public static final float IMAGE_HEIGHT_WIDTH = 0.2f;
-    public static final float TEXT_HEIGHT = 0.05f;
+    public static final float TEXT_HEIGHT = 0.035f;
     private final Image image;
     private final Text text;
     private final String name;

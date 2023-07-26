@@ -27,7 +27,7 @@ public class UpgradeShop implements AutoCloseable {
         this.upgradeItems.put(
                 "pierce",
                 new UpgradeItem(
-                        new WorldCoords(0.1f, 0.9f),
+                        new WorldCoords(0.2f, 0.8f),
                         "pierce",
                         Consts.FONT,
                         "Pierce",
