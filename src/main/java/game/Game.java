@@ -6,7 +6,6 @@ import helper.EventsManager;
 import jangl.JANGL;
 import jangl.coords.WorldCoords;
 import jangl.graphics.Camera;
-import jangl.graphics.font.Font;
 import jangl.graphics.font.Text;
 import jangl.io.Window;
 import jangl.io.keyboard.KeyEvent;
@@ -92,7 +91,6 @@ public class Game implements AutoCloseable {
         this.player.close();
         this.enemySpawner.close();
         this.gameMap.close();
-        this.infoText.getFont().close();
         this.infoText.close();
         this.uiDisplay.close();
     }
