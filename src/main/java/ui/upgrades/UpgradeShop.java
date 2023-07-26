@@ -1,5 +1,6 @@
 package ui.upgrades;
 
+import game.SoundPlayer;
 import game.gameobjects.player.PlayerBank;
 import helper.Consts;
 import helper.EventsManager;
@@ -53,13 +54,19 @@ public class UpgradeShop implements AutoCloseable {
         // Increment the price by 1 if the item was bought
         for (MouseEvent event : EventsManager.getMouseEvents()) {
             for (UpgradeItem item : this.upgradeItems.values()) {
-                if (!item.wasSelected(event) || this.bank.getMoney() < item.getPrice()) {
+                if (!item.wasSelected(event)) {
+                    continue;
+                }
+
+                if (this.bank.getMoney() < item.getPrice()) {
+                    SoundPlayer.playSound("cant_buy_item");
                     continue;
                 }
 
                 this.bank.addMoney(-item.getPrice());
                 item.setPrice(item.getPrice() + 1);
                 item.incrementUpgradeLevel();
+                SoundPlayer.playSound("buy_item");
             }
         }
     }

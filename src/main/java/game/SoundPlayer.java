@@ -15,6 +15,8 @@ public class SoundPlayer {
         put("round_done", new Sound("src/main/resources/sounds/round_done.ogg"));
         put("overheat", new Sound("src/main/resources/sounds/overheat.ogg"));
         put("hurt", new Sound("src/main/resources/sounds/hurt.ogg"));
+        put("buy_item", new Sound("src/main/resources/sounds/buy_item.ogg"));
+        put("cant_buy_item", new Sound("src/main/resources/sounds/cant_buy_item.ogg"));
     }};
 
     public static void playSound(String id) {
