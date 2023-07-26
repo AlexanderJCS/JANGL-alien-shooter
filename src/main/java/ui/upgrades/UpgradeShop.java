@@ -1,5 +1,6 @@
 package ui.upgrades;
 
+import game.gameobjects.player.PlayerBank;
 import helper.Consts;
 import helper.EventsManager;
 import jangl.color.ColorFactory;
@@ -16,8 +17,11 @@ public class UpgradeShop implements AutoCloseable {
     private final Map<String, UpgradeItem> upgradeItems;
     private final Rect background;
     private final ShaderProgram backgroundShader;
+    private final PlayerBank bank;
 
-    public UpgradeShop() {
+    public UpgradeShop(PlayerBank bank) {
+        this.bank = bank;
+
         this.upgradeItems = new HashMap<>();
         this.upgradeItems.put(
                 "pierce",
@@ -49,10 +53,11 @@ public class UpgradeShop implements AutoCloseable {
         // Increment the price by 1 if the item was bought
         for (MouseEvent event : EventsManager.getMouseEvents()) {
             for (UpgradeItem item : this.upgradeItems.values()) {
-                if (!item.wasSelected(event)) {
+                if (!item.wasSelected(event) || this.bank.getMoney() < item.getPrice()) {
                     continue;
                 }
 
+                this.bank.addMoney(-item.getPrice());
                 item.setPrice(item.getPrice() + 1);
                 item.incrementUpgradeLevel();
             }

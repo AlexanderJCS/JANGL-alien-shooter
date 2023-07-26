@@ -32,7 +32,8 @@ public class Player extends GameObject {
         super(new Rect(new WorldCoords(0, 0), 0.075f, 0.075f), "player");
 
 
-        this.upgradeShop = new UpgradeShop();
+        this.bank = new PlayerBank();
+        this.upgradeShop = new UpgradeShop(this.bank);
         this.laserGun = new LaserGun(walls, aliens, this.upgradeShop);
         this.speed = speed;
         this.walls = walls;
@@ -40,7 +41,6 @@ public class Player extends GameObject {
         this.getTexture().useDefaultShader(false);
         this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new OverheatShader(this.laserGun.getOverheat()));
         this.healthContainer = new HealthContainer(10, 1.5f, 0.1f, "hurt");
-        this.bank = new PlayerBank();
     }
 
     @Override
