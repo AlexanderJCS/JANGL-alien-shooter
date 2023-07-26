@@ -19,8 +19,9 @@ public class UpgradeItem implements AutoCloseable {
     private final String name;
     private float price;
     private int upgradeLevel;
+    private final int maxUpgrade;
 
-    public UpgradeItem(WorldCoords topLeft, String imageID, Font font, String name, float price) {
+    public UpgradeItem(WorldCoords topLeft, String imageID, Font font, String name, float price, int maxUpgradeLevel) {
         this.image = new Image(
                 new Rect(topLeft, IMAGE_HEIGHT_WIDTH, IMAGE_HEIGHT_WIDTH),
                 TextureMap.get(imageID)
@@ -37,6 +38,7 @@ public class UpgradeItem implements AutoCloseable {
         this.name = name;
         this.price = price;
         this.upgradeLevel = 1;
+        this.maxUpgrade = maxUpgradeLevel;
     }
 
     private static String getTextToDisplay(String name, float price) {
@@ -45,7 +47,12 @@ public class UpgradeItem implements AutoCloseable {
 
     public void setPrice(float newPrice) {
         this.price = newPrice;
-        this.text.setText(getTextToDisplay(this.name, newPrice));
+
+        if (this.upgradeLevel != this.maxUpgrade - 1) {
+            this.text.setText(getTextToDisplay(this.name, newPrice));
+        } else {
+            this.text.setText("MAX");
+        }
     }
 
     public float getPrice() {
@@ -64,6 +71,10 @@ public class UpgradeItem implements AutoCloseable {
         return mouseEvent.action == GLFW.GLFW_PRESS &&
                 mouseEvent.button == GLFW.GLFW_MOUSE_BUTTON_1 &&
                 Shape.collides(this.image.rect(), Mouse.getMousePos());
+    }
+
+    public boolean atMaxUpgrade() {
+        return this.upgradeLevel == this.maxUpgrade;
     }
 
     public void draw() {

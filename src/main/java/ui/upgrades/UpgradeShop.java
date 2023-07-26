@@ -31,7 +31,8 @@ public class UpgradeShop implements AutoCloseable {
                         "pierce",
                         Consts.FONT,
                         "Pierce",
-                        75
+                        75,
+                        -1
                 )
         );
 
@@ -42,7 +43,8 @@ public class UpgradeShop implements AutoCloseable {
                         "speed_up",
                         Consts.FONT,
                         "Speed",
-                        50
+                        25,
+                        6
                 )
         );
 
@@ -69,7 +71,7 @@ public class UpgradeShop implements AutoCloseable {
                     continue;
                 }
 
-                if (this.bank.getMoney() < item.getPrice()) {
+                if (this.bank.getMoney() < item.getPrice() || item.atMaxUpgrade()) {
                     SoundPlayer.playSound("cant_buy_item");
                     continue;
                 }
