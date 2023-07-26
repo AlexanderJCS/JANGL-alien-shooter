@@ -64,14 +64,11 @@ public class Enemy extends GameObject implements Destroyable {
         WorldCoords thisLocation = this.getRect().getTransform().getCenter();
         WorldCoords targetCoords = this.player.getRect().getTransform().getCenter();
 
-        double distSquared = Math.pow(targetCoords.x - thisLocation.x, 2) + Math.pow(targetCoords.y - thisLocation.y, 2);
-        float screenWidth = WorldCoords.getMiddle().x * 2;
+        this.angle = (float) (Math.atan2(thisLocation.y - targetCoords.y, thisLocation.x - targetCoords.x));
 
-        // Perform an optimization where the visual shape only rotates if it's on screen
-        if (distSquared < screenWidth) {
-            this.angle = (float) (Math.atan2(thisLocation.y - targetCoords.y, thisLocation.x - targetCoords.x));
-            this.getRect().getTransform().setLocalRotation(this.angle);
-        }
+        // Prevent the alien from running towards you upside-down.
+        float realAngle = this.angle > Math.PI / 2 || this.angle < -Math.PI / 2 ? (float) (this.angle + Math.PI) : this.angle;
+        this.getRect().getTransform().setLocalRotation(realAngle);
     }
 
     /**
