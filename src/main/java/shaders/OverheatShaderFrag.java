@@ -8,10 +8,10 @@ import java.io.UncheckedIOException;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniform1f;
 
-public class OverheatShader extends FragmentShader {
+public class OverheatShaderFrag extends FragmentShader {
     private final GunOverheat overheat;
 
-    public OverheatShader(GunOverheat overheat) throws UncheckedIOException {
+    public OverheatShaderFrag(GunOverheat overheat) throws UncheckedIOException {
         super("src/main/resources/shaders/overheatShader.frag");
 
         this.overheat = overheat;

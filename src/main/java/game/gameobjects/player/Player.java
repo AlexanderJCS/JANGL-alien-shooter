@@ -5,6 +5,7 @@ import game.gameobjects.GameObject;
 import game.gameobjects.Wall;
 import helper.HealthContainer;
 import jangl.coords.WorldCoords;
+import jangl.graphics.shaders.AttribLocation;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.premade.TextureShaderVert;
 import jangl.io.keyboard.Keyboard;
@@ -14,9 +15,10 @@ import jangl.shapes.Shape;
 import jangl.shapes.Transform;
 import jangl.time.Clock;
 import org.lwjgl.glfw.GLFW;
-import shaders.OverheatShader;
+import shaders.OverheatShaderFrag;
 import ui.upgrades.UpgradeShop;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Player extends GameObject {
@@ -39,7 +41,13 @@ public class Player extends GameObject {
         this.walls = walls;
 
         this.getTexture().useDefaultShader(false);
-        this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new OverheatShader(this.laserGun.getOverheat()));
+
+        List<AttribLocation> attribLocations = Arrays.asList(
+                new AttribLocation(0, "vertices"),
+                new AttribLocation(1, "textures")
+        );
+
+        this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new OverheatShaderFrag(this.laserGun.getOverheat()), attribLocations);
         this.healthContainer = new HealthContainer(10, 1.5f, 0.1f, "hurt");
     }
 
