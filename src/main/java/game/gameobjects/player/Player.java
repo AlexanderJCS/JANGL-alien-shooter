@@ -47,7 +47,7 @@ public class Player extends GameObject {
                 new AttribLocation(1, "textures")
         );
 
-        this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new OverheatShaderFrag(this.laserGun.getOverheat()), attribLocations);
+        this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new OverheatShaderFrag(this.laserGun.getOverheat()), TextureShaderVert.getAttribLocations());
         this.healthContainer = new HealthContainer(10, 1.5f, 0.1f, "hurt");
     }
 
