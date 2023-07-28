@@ -16,6 +16,11 @@ Waves spawn periodically. The wave size and enemy speed increases exponentially 
 | Tab                | Open Upgrade Shop |
 
 
+## Tips
+1. Constantly be on the move. Enemies will always be moving towards you. You can't let them catch up.
+2. When you have enough coins (which you can see on the top left), buy upgrades. Upgrades can help you live much longer.
+3. Have fun! You can configure the game to your liking by changing the values in the `settings.ini` file, found at `src/main/resources/settings.ini`.
+
 ## Made with JANGL
 
 This project is made with my graphics library, JANGL. See more information [here](https://github.com/AlexanderJCS/JANGL).
