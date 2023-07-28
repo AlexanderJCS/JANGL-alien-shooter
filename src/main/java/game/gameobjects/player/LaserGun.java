@@ -7,6 +7,7 @@ import helper.Cooldown;
 import game.gameobjects.Wall;
 import jangl.coords.WorldCoords;
 import jangl.io.keyboard.Keyboard;
+import jangl.io.mouse.Mouse;
 import jangl.shapes.Transform;
 import org.lwjgl.glfw.GLFW;
 import ui.upgrades.UpgradeShop;
@@ -71,29 +72,31 @@ public class LaserGun implements AutoCloseable {
     }
 
     private void spawnLaser(PlayerBank bank, Transform playerTransform) {
-        if (Keyboard.getKeyDown(GLFW.GLFW_KEY_SPACE) && !this.cooldown.onCooldown()) {
-            if (!this.overheat.canFire()) {
-                SoundPlayer.playSound("overheat");
-                this.cooldown.activate();
-                return;
-            }
-
-            this.lasers.add(
-                    new Laser(
-                            this.walls,
-                            this.aliens,
-                            bank,
-                            playerTransform.getCenter(),
-                            playerTransform.getLocalRotationAngle(),
-                            this.speed,
-                            this.upgradeShop.getUpgradeLevel("pierce")
-                    )
-            );
-
-            this.cooldown.activate();
-            this.overheat.fire();
-            SoundPlayer.playSound("shoot");
+        if (!(Keyboard.getKeyDown(GLFW.GLFW_KEY_SPACE) || Mouse.isMouseDown(GLFW.GLFW_MOUSE_BUTTON_1)) || this.cooldown.onCooldown()) {
+            return;
         }
+
+        if (!this.overheat.canFire()) {
+            SoundPlayer.playSound("overheat");
+            this.cooldown.activate();
+            return;
+        }
+
+        this.lasers.add(
+                new Laser(
+                        this.walls,
+                        this.aliens,
+                        bank,
+                        playerTransform.getCenter(),
+                        playerTransform.getLocalRotationAngle(),
+                        this.speed,
+                        this.upgradeShop.getUpgradeLevel("pierce")
+                )
+        );
+
+        this.cooldown.activate();
+        this.overheat.fire();
+        SoundPlayer.playSound("shoot");
     }
 
     private void cleanUpLasers(Transform playerTransform) {
