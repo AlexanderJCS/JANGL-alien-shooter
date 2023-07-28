@@ -27,29 +27,30 @@ public class UpgradeItem implements AutoCloseable {
                 TextureMap.get(imageID)
         );
 
+        this.name = name;
+        this.upgradeLevel = 1;
+        this.maxUpgrade = maxUpgradeLevel;
+
         WorldCoords textTopLeft = new WorldCoords(topLeft.x, topLeft.y - IMAGE_HEIGHT_WIDTH - 0.01f);
         this.text = new Text(
                 textTopLeft,
                 font,
                 TEXT_HEIGHT,
-                getTextToDisplay(name, price)
+                getTextToDisplay(name, price, this.upgradeLevel)
         );
 
-        this.name = name;
-        this.upgradeLevel = 1;
-        this.maxUpgrade = maxUpgradeLevel;
         this.setPrice(price);
     }
 
-    private static String getTextToDisplay(String name, float price) {
-        return name + "\n$" + Math.round(price);
+    private static String getTextToDisplay(String name, float price, int upgradeLevel) {
+        return name + "\n$" + Math.round(price) + "\nLvl " + upgradeLevel;
     }
 
     public void setPrice(float newPrice) {
         this.price = newPrice;
 
         if (this.upgradeLevel < this.maxUpgrade - 1 || this.maxUpgrade < 0) {
-            this.text.setText(getTextToDisplay(this.name, newPrice));
+            this.text.setText(getTextToDisplay(this.name, newPrice, this.upgradeLevel));
         } else {
             this.text.setText("MAX");
         }
