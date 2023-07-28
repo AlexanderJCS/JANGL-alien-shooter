@@ -19,7 +19,6 @@ import org.lwjgl.glfw.GLFW;
 import shaders.OverheatShaderFrag;
 import ui.upgrades.UpgradeShop;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Player extends GameObject {
@@ -66,9 +65,11 @@ public class Player extends GameObject {
     }
 
     public void drawItemShop() {
-        if (Keyboard.getKeyDown(GLFW.GLFW_KEY_TAB)) {
-            this.upgradeShop.draw();
-        }
+        this.upgradeShop.draw();
+    }
+
+    public void updateItemShop() {
+        this.upgradeShop.update();
     }
 
     @Override
@@ -82,10 +83,6 @@ public class Player extends GameObject {
         this.laserGun.update(this.getRect().getTransform(), this.getBank());
         this.healthContainer.setRegen((float) (Consts.SETTINGS.getFloat("player/regen") + 0.025 * this.upgradeShop.getUpgradeLevel("regen")));
         this.healthContainer.update();
-
-        if (Keyboard.getKeyDown(GLFW.GLFW_KEY_TAB)) {
-            this.upgradeShop.update();
-        }
     }
 
     /**

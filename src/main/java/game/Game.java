@@ -43,13 +43,19 @@ public class Game implements AutoCloseable {
 
     public void update() {
         EventsManager.getEvents();
-        this.player.update();
-        this.enemySpawner.update();
 
-        this.infoText.setText("");
+        if (!Keyboard.getKeyDown(GLFW.GLFW_KEY_TAB)) {
+            this.player.update();
+            this.enemySpawner.update();
 
-        this.uiDisplay.update();
-        Camera.setCenter(this.player.getRect().getTransform().getCenter());
+            this.infoText.setText("");
+
+            this.uiDisplay.update();
+            Camera.setCenter(this.player.getRect().getTransform().getCenter());
+        } else {
+            this.infoText.setText("PAUSED");
+            this.player.updateItemShop();
+        }
     }
 
     public void draw() {
@@ -64,7 +70,10 @@ public class Game implements AutoCloseable {
         this.infoText.draw();
 
         this.uiDisplay.draw();
-        this.player.drawItemShop();
+
+        if (Keyboard.getKeyDown(GLFW.GLFW_KEY_TAB)) {
+            this.player.drawItemShop();
+        }
     }
 
     public void pauseCheck(List<KeyEvent> keyEvents) {
