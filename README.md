@@ -8,14 +8,12 @@ Waves spawn periodically. The wave size and enemy speed increases exponentially 
 
 ## Controls
 
-| Key       | Action        |
-|-----------|---------------|
-| W         | Move up       |
-| A         | Move left     |
-| S         | Move down     |
-| D         | Move right    |
-| Space bar | Fire          |
-| P         | Pause/unpause |
+| Key                | Action            |
+|--------------------|-------------------|
+| W, A, S, D         | Movement controls |
+| Click or Space bar | Fire              |
+| Esc or P           | Pause/unpause     |
+| Tab                | Open Upgrade Shop |
 
 
 ## Made with JANGL
