@@ -1,6 +1,7 @@
 package game;
 
 import game.gameobjects.Enemy;
+import helper.Consts;
 import helper.Cooldown;
 import game.gameobjects.player.Player;
 import jangl.coords.WorldCoords;
@@ -11,13 +12,14 @@ import java.util.List;
 import java.util.Random;
 
 public class EnemySpawner implements AutoCloseable {
-    private final Random random;
-    private static final float BASE_SPEED = 0.7f;
-    private int waveNumber;
     private final List<Enemy> enemies;
+    private final Cooldown waveCooldown;
+    private final Random random;
+    private int waveNumber;
+
+    // References
     private final GameMap gameMap;
     private Player player;
-    private final Cooldown waveCooldown;
 
 
     public EnemySpawner(Player player, GameMap gameMap) {
@@ -28,7 +30,7 @@ public class EnemySpawner implements AutoCloseable {
         this.player = player;
         this.gameMap = gameMap;
 
-        this.waveCooldown = new Cooldown(30);
+        this.waveCooldown = new Cooldown(Consts.SETTINGS.getFloat("wave/cooldown"));
     }
 
     public float timeToNextWave() {
@@ -52,10 +54,13 @@ public class EnemySpawner implements AutoCloseable {
     }
 
     private void spawnNextWave() {
-        float speed = BASE_SPEED * (float) (Math.pow(this.waveNumber, 1.1) / 100 + 1);
+        float speed = Consts.SETTINGS.getFloat("enemy/base_speed") * (float) (Math.pow(this.waveNumber, 1.1) / 100 + 1);
         float randomness = speed / 10;
 
-        int numEnemies = (int) Math.round(Math.pow(this.waveNumber, 1.3)) * 2;
+        int numEnemies = (int) Math.round(
+                Math.pow(this.waveNumber, 1.3) * Consts.SETTINGS.getFloat("enemy/multiplier")
+        );
+
         List<WorldCoords> spawnLocations = this.gameMap.getSpawnLocations();
 
         for (int i = 0; i < numEnemies; i++) {
