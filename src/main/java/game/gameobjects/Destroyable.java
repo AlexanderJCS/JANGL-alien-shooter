@@ -1,4 +1,4 @@
-package helper;
+package game.gameobjects;
 
 public interface Destroyable {
     boolean shouldDestroy();

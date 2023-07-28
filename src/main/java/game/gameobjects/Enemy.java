@@ -1,7 +1,6 @@
 package game.gameobjects;
 
 import helper.Cooldown;
-import helper.Destroyable;
 import helper.HealthContainer;
 import game.gameobjects.player.Player;
 import jangl.coords.WorldCoords;
