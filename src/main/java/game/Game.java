@@ -2,7 +2,6 @@ package game;
 
 import game.gameobjects.player.Player;
 import helper.Consts;
-import helper.Cooldown;
 import helper.EventsManager;
 import jangl.JANGL;
 import jangl.color.ColorFactory;
@@ -78,7 +77,7 @@ public class Game implements AutoCloseable {
 
     public void pauseCheck(List<KeyEvent> keyEvents) {
         for (KeyEvent event : keyEvents) {
-            if (event.action == GLFW.GLFW_PRESS && event.key == GLFW.GLFW_KEY_P) {
+            if (event.action == GLFW.GLFW_PRESS && (event.key == GLFW.GLFW_KEY_P || event.key == GLFW.GLFW_KEY_ESCAPE)) {
                 this.paused = !this.paused;
                 this.infoText.setText("PAUSED");
             }
