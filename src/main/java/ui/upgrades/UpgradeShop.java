@@ -32,7 +32,7 @@ public class UpgradeShop implements AutoCloseable {
                         Consts.FONT,
                         "Pierce",
                         Consts.SETTINGS.getFloat("upgrades/pierce_cost"),
-                        -1
+                        Consts.SETTINGS.getInt("upgrades/max_pierce_upgrade")
                 )
         );
 
@@ -44,7 +44,7 @@ public class UpgradeShop implements AutoCloseable {
                         Consts.FONT,
                         "Speed",
                         Consts.SETTINGS.getFloat("upgrades/speed_cost"),
-                        6
+                        Consts.SETTINGS.getInt("upgrades/max_speed_upgrade")
                 )
         );
 

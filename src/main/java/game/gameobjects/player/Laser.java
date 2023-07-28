@@ -4,6 +4,7 @@ import game.gameobjects.Enemy;
 import game.gameobjects.Destroyable;
 import game.gameobjects.GameObject;
 import game.gameobjects.Wall;
+import helper.Consts;
 import jangl.coords.WorldCoords;
 import jangl.shapes.Rect;
 import jangl.shapes.Shape;
@@ -59,7 +60,7 @@ public class Laser extends GameObject implements Destroyable {
 
         for (Enemy alien : this.aliens) {
             if (!alien.onCooldown() && Shape.collides(this.getRect(), alien.getRect()) && this.pierce > 0) {
-                alien.takeDamage(8);
+                alien.takeDamage(Consts.SETTINGS.getFloat("bullet/damage"));
                 this.pierce--;
 
                 // Award the player with money for killing aliens

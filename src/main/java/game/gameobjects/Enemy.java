@@ -1,5 +1,6 @@
 package game.gameobjects;
 
+import helper.Consts;
 import helper.Cooldown;
 import helper.HealthContainer;
 import game.gameobjects.player.Player;
@@ -32,7 +33,12 @@ public class Enemy extends GameObject implements Destroyable {
         this.speed = speed;
         this.walls = walls;
         this.angle = 0;
-        this.healthContainer = new HealthContainer(18, 1f, 0, null);
+        this.healthContainer = new HealthContainer(
+                Consts.SETTINGS.getFloat("enemy/health"),
+                Consts.SETTINGS.getFloat("enemy/invincibility"),
+                Consts.SETTINGS.getFloat("enemy/regen"),
+                null
+        );
         this.runAwayCooldown = new Cooldown(1);
     }
 

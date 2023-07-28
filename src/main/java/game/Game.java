@@ -32,7 +32,7 @@ public class Game implements AutoCloseable {
     public Game() {
         this.gameMap = new GameMap();
         this.enemySpawner = new EnemySpawner(null, this.gameMap);
-        this.player = new Player(this.gameMap.getWalls(), this.enemySpawner.getEnemyList(), 0.8f);
+        this.player = new Player(this.gameMap.getWalls(), this.enemySpawner.getEnemyList(), Consts.SETTINGS.getFloat("player/base_speed"));
         this.enemySpawner.setPlayer(this.player);
 
         this.infoText = new Text(new WorldCoords(0.05f, 0.975f), Consts.FONT, 0.05f, "");

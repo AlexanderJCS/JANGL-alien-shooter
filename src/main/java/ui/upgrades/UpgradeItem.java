@@ -36,9 +36,9 @@ public class UpgradeItem implements AutoCloseable {
         );
 
         this.name = name;
-        this.price = price;
         this.upgradeLevel = 1;
         this.maxUpgrade = maxUpgradeLevel;
+        this.setPrice(this.price);
     }
 
     private static String getTextToDisplay(String name, float price) {
@@ -48,7 +48,7 @@ public class UpgradeItem implements AutoCloseable {
     public void setPrice(float newPrice) {
         this.price = newPrice;
 
-        if (this.upgradeLevel != this.maxUpgrade - 1) {
+        if (this.upgradeLevel < this.maxUpgrade - 1 || this.maxUpgrade < 0) {
             this.text.setText(getTextToDisplay(this.name, newPrice));
         } else {
             this.text.setText("MAX");

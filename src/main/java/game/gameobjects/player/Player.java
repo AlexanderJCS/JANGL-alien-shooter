@@ -3,6 +3,7 @@ package game.gameobjects.player;
 import game.gameobjects.Enemy;
 import game.gameobjects.GameObject;
 import game.gameobjects.Wall;
+import helper.Consts;
 import helper.HealthContainer;
 import jangl.coords.WorldCoords;
 import jangl.graphics.shaders.AttribLocation;
@@ -43,7 +44,12 @@ public class Player extends GameObject {
         this.getTexture().useDefaultShader(false);
 
         this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new OverheatShaderFrag(this.laserGun.getOverheat()), TextureShaderVert.getAttribLocations());
-        this.healthContainer = new HealthContainer(10, 1.5f, 0.1f, "hurt");
+        this.healthContainer = new HealthContainer(
+                Consts.SETTINGS.getFloat("player/health"),
+                Consts.SETTINGS.getFloat("player/invincibility"),
+                Consts.SETTINGS.getFloat("player/regen"),
+                "hurt"
+        );
     }
 
     @Override
@@ -112,6 +118,7 @@ public class Player extends GameObject {
     private void move() {
         float speedUp = (this.upgradeShop.getUpgradeLevel("speed_up") - 1) * 0.1f;
         float amountToMove = (float) ((this.speed + speedUp) * Clock.getTimeDelta());
+
         WorldCoords movement = new WorldCoords(0, 0);
 
         // Vertical axis

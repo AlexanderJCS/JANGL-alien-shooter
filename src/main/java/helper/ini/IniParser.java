@@ -44,8 +44,7 @@ public class IniParser {
 
                 if (keyValue.length != 2) {
                     throw new IniParseException(
-                            "Could not parse line in " + filepath + "." +
-                                    "It either has too few or too many equals signs:\n" + currentLine
+                            "Could not parse line in " + filepath + ":\n" + currentLine
                     );
                 }
 
@@ -75,5 +74,9 @@ public class IniParser {
 
     public float getFloat(String varName) {
         return Float.parseFloat(this.getString(varName));
+    }
+
+    public int getInt(String varName) {
+        return Integer.parseInt(this.getString(varName));
     }
 }

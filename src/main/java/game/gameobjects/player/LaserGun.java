@@ -2,6 +2,7 @@ package game.gameobjects.player;
 
 import game.SoundPlayer;
 import game.gameobjects.Enemy;
+import helper.Consts;
 import helper.Cooldown;
 import game.gameobjects.Wall;
 import jangl.coords.WorldCoords;
@@ -28,13 +29,16 @@ public class LaserGun implements AutoCloseable {
         this.aliens = aliens;
 
         this.lasers = new ArrayList<>();
-        this.speed = 1.6f;
+        this.speed = Consts.SETTINGS.getFloat("bullet/speed");
 
         // Set the cooldown to 0.05 for a machine gun. Set the cooldown to 0 (or near 0)
         // for the laser equivalent of the A-10 Warthog
-        this.cooldown = new Cooldown(0.15f);
+        this.cooldown = new Cooldown(Consts.SETTINGS.getFloat("gun/fire_rate"));
         SoundPlayer.getSound("shoot").setVolume(0.3f);
-        this.overheat = new GunOverheat(0.08f, 0.3f);
+        this.overheat = new GunOverheat(
+                Consts.SETTINGS.getFloat("gun/cooldown_increment"),
+                Consts.SETTINGS.getFloat("gun/cooldown_decrement")
+        );
         this.upgradeShop = upgradeShop;
     }
 
