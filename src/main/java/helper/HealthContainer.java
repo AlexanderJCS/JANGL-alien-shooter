@@ -7,7 +7,7 @@ public class HealthContainer {
     private final float maxHealth;
     private float health;
     private final Cooldown cooldown;
-    private final float regen;
+    private float regen;
     private final String soundID;
 
     public HealthContainer(float maxHealth, float cooldownTime, float regen, String soundID) {
@@ -49,5 +49,9 @@ public class HealthContainer {
 
     public float getMaxHealth() {
         return maxHealth;
+    }
+
+    public void setRegen(float regen) {
+        this.regen = regen;
     }
 }

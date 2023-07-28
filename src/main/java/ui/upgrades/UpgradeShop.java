@@ -27,7 +27,7 @@ public class UpgradeShop implements AutoCloseable {
         this.upgradeItems.put(
                 "pierce",
                 new UpgradeItem(
-                        new WorldCoords(0.2f, 0.8f),
+                        new WorldCoords(0.2f, 0.9f),
                         "pierce",
                         Consts.FONT,
                         "Pierce",
@@ -39,12 +39,24 @@ public class UpgradeShop implements AutoCloseable {
         this.upgradeItems.put(
                 "speed_up",
                 new UpgradeItem(
-                        new WorldCoords(0.5f, 0.8f),
+                        new WorldCoords(0.5f, 0.9f),
                         "speed_up",
                         Consts.FONT,
                         "Speed",
                         Consts.SETTINGS.getFloat("upgrades/speed_cost"),
                         Consts.SETTINGS.getInt("upgrades/max_speed_upgrade")
+                )
+        );
+
+        this.upgradeItems.put(
+                "regen",
+                new UpgradeItem(
+                        new WorldCoords(0.8f, 0.9f),
+                        "regen",
+                        Consts.FONT,
+                        "Regen",
+                        Consts.SETTINGS.getFloat("upgrades/regen_cost"),
+                        Consts.SETTINGS.getInt("upgrades/max_regen_upgrade")
                 )
         );
 

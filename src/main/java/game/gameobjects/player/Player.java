@@ -80,6 +80,7 @@ public class Player extends GameObject {
         this.setRotation();
 
         this.laserGun.update(this.getRect().getTransform(), this.getBank());
+        this.healthContainer.setRegen((float) (Consts.SETTINGS.getFloat("player/regen") + 0.025 * this.upgradeShop.getUpgradeLevel("regen")));
         this.healthContainer.update();
 
         if (Keyboard.getKeyDown(GLFW.GLFW_KEY_TAB)) {
