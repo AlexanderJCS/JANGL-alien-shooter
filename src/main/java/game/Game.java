@@ -104,14 +104,14 @@ public class Game implements AutoCloseable {
                 new WorldCoords(0.1f, 0.6f),
                 Consts.FONT,
                 0.07f,
-                "You died!\nWAVE No. " + this.enemySpawner.getWaveNumber() + "\nPress SPACE to continue"
+                "You died!\nWAVE No. " + this.enemySpawner.getWaveNumber() + "\nPress G to continue"
         );
 
         Rect background = new Rect(new WorldCoords(0, 1), WorldCoords.getMiddle().x * 2, 1);
         ShaderProgram backgroundShader = new ShaderProgram(new ColorShader(ColorFactory.fromNormalized(0, 0, 0, 0.4f)));
         backgroundShader.getVertexShader().setObeyCamera(false);
 
-        while (!Keyboard.getKeyDown(GLFW.GLFW_KEY_SPACE) && Window.shouldRun()) {
+        while (!Keyboard.getKeyDown(GLFW.GLFW_KEY_G) && Window.shouldRun()) {
             this.draw();
             background.draw(backgroundShader);
             diedText.draw();
