@@ -42,6 +42,7 @@ public class Game implements AutoCloseable {
 
     public void update() {
         EventsManager.getEvents();
+        this.uiDisplay.update();
 
         if (!Keyboard.getKeyDown(GLFW.GLFW_KEY_TAB)) {
             this.player.update();
@@ -49,7 +50,6 @@ public class Game implements AutoCloseable {
 
             this.infoText.setText("");
 
-            this.uiDisplay.update();
             Camera.setCenter(this.player.getRect().getTransform().getCenter());
         } else {
             this.infoText.setText("PAUSED");
