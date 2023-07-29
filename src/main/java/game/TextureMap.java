@@ -44,6 +44,7 @@ public class TextureMap {
         put("wave", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/ui/wave.png").setObeyCamera(false)));
         put("speed_up", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/ui/speed_up.png").setObeyCamera(false)));
         put("regen", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/ui/regen.png").setObeyCamera(false)));
+        put("damage_up", new Texture(new TextureBuilder().setImagePath("src/main/resources/textures/ui/damage_up.png").setObeyCamera(false)));
     }};
 
     public static Texture get(String id) {

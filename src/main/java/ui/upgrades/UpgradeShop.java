@@ -60,6 +60,18 @@ public class UpgradeShop implements AutoCloseable {
                 )
         );
 
+        this.upgradeItems.put(
+                "damage_up",
+                new UpgradeItem(
+                        new WorldCoords(1.1f, 0.9f),
+                        "damage_up",
+                        Consts.FONT,
+                        "Damage",
+                        Consts.SETTINGS.getFloat("upgrades/damage_cost"),
+                        Consts.SETTINGS.getInt("upgrades/max_damage_upgrade")
+                )
+        );
+
         this.background = new Rect(new WorldCoords(0, 1), WorldCoords.getMiddle().x * 2, 1);
         this.backgroundShader = new ShaderProgram(
                 new ColorShader(ColorFactory.fromNormalized(0, 0, 0, 0.4f))
