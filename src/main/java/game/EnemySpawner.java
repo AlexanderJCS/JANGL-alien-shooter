@@ -54,7 +54,7 @@ public class EnemySpawner implements AutoCloseable {
     }
 
     private void spawnNextWave() {
-        float speed = Consts.SETTINGS.getFloat("enemy/base_speed") * (float) (Math.pow(this.waveNumber, 1.1) / 100 + 1);
+        float speed = Consts.SETTINGS.getFloat("enemy/base_speed") * (float) (Math.pow(this.waveNumber, 1.15) / 100 + 1);
         float randomness = speed / 10;
 
         int numEnemies = (int) Math.round(
