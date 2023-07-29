@@ -7,6 +7,7 @@ import game.gameobjects.player.Player;
 import jangl.coords.WorldCoords;
 import jangl.shapes.Rect;
 import jangl.shapes.Shape;
+import jangl.shapes.TileSheetRect;
 import jangl.shapes.Transform;
 import jangl.time.Clock;
 import org.lwjgl.glfw.GLFW;
@@ -24,9 +25,11 @@ public class Enemy extends GameObject implements Destroyable {
      * Run away after hitting the player.
      */
     private final Cooldown runAwayCooldown;
+    private final Cooldown animationSwitch;
+    private boolean animationState;
 
     public Enemy(WorldCoords center, Player player, List<Wall> walls, float speed) {
-        super(new Rect(new WorldCoords(0, 0), 0.075f, 0.075f), "enemy");
+        super(new TileSheetRect(new WorldCoords(0, 0), 0.075f, 0.075f, 1, 2), "enemy");
 
         this.getRect().getTransform().setPos(center);
         this.player = player;
@@ -40,6 +43,8 @@ public class Enemy extends GameObject implements Destroyable {
                 null
         );
         this.runAwayCooldown = new Cooldown(1);
+        this.animationSwitch = new Cooldown(0.05f);
+        this.animationState = true;
     }
 
     @Override
@@ -51,6 +56,20 @@ public class Enemy extends GameObject implements Destroyable {
         this.move();
         this.setRotation();
         this.dealDamage();
+        this.animate();
+    }
+
+    public void animate() {
+        this.animationSwitch.update();
+        if (this.animationSwitch.onCooldown()) {
+            return;
+        }
+
+        TileSheetRect tileSheetRect = (TileSheetRect) this.getRect();
+        this.animationState = !this.animationState;
+
+        tileSheetRect.setTilePos(0, this.animationState ? 2 : 1);
+        this.animationSwitch.activate();
     }
 
     /**
