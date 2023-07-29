@@ -114,7 +114,7 @@ public class Player extends GameObject {
     }
 
     private void move() {
-        float speedUp = (this.upgradeShop.getUpgradeLevel("speed_up") - 1) * 0.1f;
+        float speedUp = (this.upgradeShop.getUpgradeLevel("speed_up") - 1) * 0.075f;
         float amountToMove = (float) ((this.speed + speedUp) * Clock.getTimeDelta());
 
         WorldCoords movement = new WorldCoords(0, 0);
