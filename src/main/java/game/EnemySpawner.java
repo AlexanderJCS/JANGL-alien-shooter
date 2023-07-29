@@ -71,10 +71,9 @@ public class EnemySpawner implements AutoCloseable {
             );
 
             // Add some randomness so large clumps of enemies aren't perfectly stacked atop one another
-            float randX = this.random.nextFloat(GameMap.CUBE_DIMENSIONS / 2);
-            spawnLocation.x += randX - randX / 2;
-            float randY = this.random.nextFloat(GameMap.CUBE_DIMENSIONS / 2);
-            spawnLocation.y += randY - randY / 2;
+            float halfCubeDimension = GameMap.CUBE_DIMENSIONS / 2.5f;  // divide by 2.5 instead of 2 to prevent enemies from spawning inside the brick
+            spawnLocation.x = this.random.nextFloat(spawnLocation.x - halfCubeDimension, spawnLocation.x + halfCubeDimension);
+            spawnLocation.y = this.random.nextFloat(spawnLocation.y  - halfCubeDimension, spawnLocation.y + halfCubeDimension);
 
             this.enemies.add(
                     new Enemy(
