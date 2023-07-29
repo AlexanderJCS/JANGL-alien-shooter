@@ -1,5 +1,7 @@
 package game.gameobjects.player;
 
+import helper.Consts;
+
 /**
  * Stores money made by killing enemies.
  */
@@ -7,7 +9,7 @@ public class PlayerBank {
     private float money;
 
     public PlayerBank() {
-        this.money = 0;
+        this.money = Consts.SETTINGS.getFloat("start/money");
     }
 
     public float getMoney() {

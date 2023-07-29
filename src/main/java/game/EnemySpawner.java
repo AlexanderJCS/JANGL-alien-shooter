@@ -23,7 +23,7 @@ public class EnemySpawner implements AutoCloseable {
 
 
     public EnemySpawner(Player player, GameMap gameMap) {
-        this.waveNumber = 1;
+        this.waveNumber = Consts.SETTINGS.getInt("start/wave");
         this.enemies = new ArrayList<>();
         this.random = new Random();
 
