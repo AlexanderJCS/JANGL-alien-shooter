@@ -29,8 +29,6 @@ public class Player extends GameObject {
     private final UpgradeShop upgradeShop;
     private final PlayerBank bank;
     private final List<LaserGun> laserGuns;
-    private final List<Enemy> aliens;
-    private final OverheatShaderFrag overheatShader;
 
     public Player(List<Wall> walls, List<Enemy> aliens, float speed) {
         super(new Rect(new WorldCoords(0, 0), 0.075f, 0.075f), "player");
@@ -42,15 +40,12 @@ public class Player extends GameObject {
         this.laserGuns.add(
                 new LaserGun(this, walls, aliens, this.upgradeShop, 0)
         );
-        this.aliens = aliens;
-
         this.speed = speed;
         this.walls = walls;
 
         this.getTexture().useDefaultShader(false);
 
-        this.overheatShader = new OverheatShaderFrag(this.laserGuns.get(0).getOverheat());
-        this.shaderProgram = new ShaderProgram(new TextureShaderVert(), this.overheatShader, TextureShaderVert.getAttribLocations());
+        this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new OverheatShaderFrag(this.laserGuns.get(0).getOverheat()), TextureShaderVert.getAttribLocations());
         this.healthContainer = new HealthContainer(
                 Consts.SETTINGS.getFloat("player/health"),
                 Consts.SETTINGS.getFloat("player/invincibility"),
@@ -80,33 +75,6 @@ public class Player extends GameObject {
         this.shaderProgram.unbind();
     }
 
-    private void checkGunUpgrade() {
-        int numGuns = this.upgradeShop.getUpgradeLevel("more_gun");
-        if (numGuns == this.laserGuns.size()) {
-            return;
-        }
-
-        for (LaserGun laserGun : this.laserGuns) {
-            laserGun.close();
-        }
-        this.laserGuns.clear();
-
-        float jump = (float) (2 * Math.PI / numGuns);
-        for (int i = 0; i < numGuns; i++) {
-            this.laserGuns.add(
-                    new LaserGun(
-                            this,
-                            this.walls,
-                            this.aliens,
-                            this.upgradeShop,
-                            jump * i
-                    )
-            );
-        }
-
-        this.overheatShader.setGunOverheat(this.laserGuns.get(0).getOverheat());
-    }
-
     public void drawItemShop() {
         this.upgradeShop.draw();
     }
@@ -129,7 +97,6 @@ public class Player extends GameObject {
 
         this.healthContainer.setRegen((float) (Consts.SETTINGS.getFloat("player/regen") + 0.025 * this.upgradeShop.getUpgradeLevel("regen")));
         this.healthContainer.update();
-        this.checkGunUpgrade();
     }
 
     /**

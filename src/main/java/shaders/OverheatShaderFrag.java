@@ -9,15 +9,11 @@ import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniform1f;
 
 public class OverheatShaderFrag extends FragmentShader {
-    private GunOverheat overheat;
+    private final GunOverheat overheat;
 
     public OverheatShaderFrag(GunOverheat overheat) throws UncheckedIOException {
         super("src/main/resources/shaders/overheatShader.frag");
 
-        this.overheat = overheat;
-    }
-
-    public void setGunOverheat(GunOverheat overheat) {
         this.overheat = overheat;
     }
 
