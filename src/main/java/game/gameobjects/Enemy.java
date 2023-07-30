@@ -10,7 +10,6 @@ import jangl.shapes.Shape;
 import jangl.shapes.TileSheetRect;
 import jangl.shapes.Transform;
 import jangl.time.Clock;
-import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
@@ -102,16 +101,11 @@ public class Enemy extends GameObject implements Destroyable {
     }
 
     private void setRotation() {
-        Vector2f playerCenter = this.player.getRect().getTransform().getCenter().toVector2f();
-        Vector2f thisCenter = this.getRect().getTransform().getCenter().toVector2f();
-
-        if (this.runAwayState && playerCenter.distance(thisCenter) > 0.5) {
-            if (this.changeDirectionCooldown.onCooldown()) {
-                return;
-            }
-
+        if (this.runAwayState && !this.changeDirectionCooldown.onCooldown()) {
             this.changeDirectionCooldown.activate();
             this.angle = Consts.RANDOM.nextFloat((float) -Math.PI, (float) Math.PI);
+        } else if (this.runAwayState) {
+            return;
         }
 
         WorldCoords thisLocation = this.getRect().getTransform().getCenter();
