@@ -81,7 +81,7 @@ public class Player extends GameObject {
     }
 
     private void checkGunUpgrade() {
-        int numGuns = this.upgradeShop.getUpgradeLevel("gun_up");
+        int numGuns = this.upgradeShop.getUpgradeLevel("more_gun");
         if (numGuns == this.laserGuns.size()) {
             return;
         }
