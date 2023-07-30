@@ -6,7 +6,6 @@ import game.gameobjects.Wall;
 import helper.Consts;
 import helper.HealthContainer;
 import jangl.coords.WorldCoords;
-import jangl.graphics.shaders.AttribLocation;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.premade.TextureShaderVert;
 import jangl.io.keyboard.Keyboard;
@@ -49,6 +48,8 @@ public class Player extends GameObject {
                 Consts.SETTINGS.getFloat("player/regen"),
                 "hurt"
         );
+
+        this.getRect().getTransform().setPos(new WorldCoords(0, 0));
     }
 
     @Override
