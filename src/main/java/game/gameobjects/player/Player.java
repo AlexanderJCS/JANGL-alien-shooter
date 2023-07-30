@@ -18,16 +18,17 @@ import org.lwjgl.glfw.GLFW;
 import shaders.OverheatShaderFrag;
 import ui.upgrades.UpgradeShop;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player extends GameObject {
     private final float speed;
-    private final LaserGun laserGun;
     private final List<Wall> walls;
     private final ShaderProgram shaderProgram;
     private final HealthContainer healthContainer;
     private final UpgradeShop upgradeShop;
     private final PlayerBank bank;
+    private final List<LaserGun> laserGuns;
 
     public Player(List<Wall> walls, List<Enemy> aliens, float speed) {
         super(new Rect(new WorldCoords(0, 0), 0.075f, 0.075f), "player");
@@ -35,13 +36,16 @@ public class Player extends GameObject {
 
         this.bank = new PlayerBank();
         this.upgradeShop = new UpgradeShop(this.bank);
-        this.laserGun = new LaserGun(walls, aliens, this.upgradeShop);
+        this.laserGuns = new ArrayList<>();
+        this.laserGuns.add(
+                new LaserGun(this, walls, aliens, this.upgradeShop, 0)
+        );
         this.speed = speed;
         this.walls = walls;
 
         this.getTexture().useDefaultShader(false);
 
-        this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new OverheatShaderFrag(this.laserGun.getOverheat()), TextureShaderVert.getAttribLocations());
+        this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new OverheatShaderFrag(this.laserGuns.get(0).getOverheat()), TextureShaderVert.getAttribLocations());
         this.healthContainer = new HealthContainer(
                 Consts.SETTINGS.getFloat("player/health"),
                 Consts.SETTINGS.getFloat("player/invincibility"),
@@ -54,10 +58,16 @@ public class Player extends GameObject {
 
     @Override
     public void draw() {
-        this.laserGun.draw();
+        for (LaserGun laserGun : this.laserGuns) {
+            laserGun.drawLasers();
+        }
 
         if (this.healthContainer.onCooldown() && Math.round(GLFW.glfwGetTime() * 20) % 2 == 0) {
             return;
+        }
+
+        for (LaserGun laserGun : this.laserGuns) {
+            laserGun.draw();
         }
 
         this.shaderProgram.bind();
@@ -81,7 +91,10 @@ public class Player extends GameObject {
         this.move();
         this.setRotation();
 
-        this.laserGun.update(this.getRect().getTransform(), this.getBank());
+        for (LaserGun laserGun : this.laserGuns) {
+            laserGun.update(this.getRect().getTransform(), this.getBank());
+        }
+
         this.healthContainer.setRegen((float) (Consts.SETTINGS.getFloat("player/regen") + 0.025 * this.upgradeShop.getUpgradeLevel("regen")));
         this.healthContainer.update();
     }
@@ -153,6 +166,10 @@ public class Player extends GameObject {
 
         float angle = (float) (Math.atan2(mouseCoords.y - middle.y, mouseCoords.x - middle.x));
         this.getRect().getTransform().setLocalRotation(angle);
+    }
+
+    public float getRotation() {
+        return this.getRect().getTransform().getLocalRotationAngle();
     }
 
     public void dealDamage(float damage) {

@@ -22,6 +22,15 @@ public class TextureMap {
         );
 
         put(
+                "black",
+                new Texture(
+                        new TextureBuilder().fill(
+                                ColorFactory.fromNormalized(0, 0, 0, 1), 1, 1)
+                                .setObeyCamera(false)
+                )
+        );
+
+        put(
                 "green",
                 new Texture(
                         new TextureBuilder().fill(
