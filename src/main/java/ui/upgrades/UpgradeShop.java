@@ -73,14 +73,14 @@ public class UpgradeShop implements AutoCloseable {
         );
 
         this.upgradeItems.put(
-                "more_gun",
+                "gun_up",
                 new UpgradeItem(
                         new WorldCoords(1.4f, 0.9f),
-                        "damage_up",
+                        "gun_up",
                         Consts.FONT,
                         "Gun Up",
-                        0,
-                        -1
+                        Consts.SETTINGS.getFloat("upgrades/gun_up_cost"),
+                        Consts.SETTINGS.getInt("upgrades/max_gun_up_upgrade")
                 )
         );
 
