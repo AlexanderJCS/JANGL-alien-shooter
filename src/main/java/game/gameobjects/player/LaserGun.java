@@ -28,6 +28,7 @@ public class LaserGun extends GameObject implements AutoCloseable {
     private final GunOverheat overheat;
     private final Player player;
     private float rotation;
+    private final float rotationOffset;
 
     public LaserGun(Player player, List<Wall> walls, List<Enemy> aliens, UpgradeShop upgradeShop, float angleOffset) {
         super(
@@ -52,6 +53,7 @@ public class LaserGun extends GameObject implements AutoCloseable {
         this.upgradeShop = upgradeShop;
         this.player = player;
         this.rotation = (float) (Math.PI / 2) + angleOffset;
+        this.rotationOffset = angleOffset;
 
         Transform thisTransform = this.getRect().getTransform();
         Rect playerRect = this.player.getRect();
@@ -96,8 +98,6 @@ public class LaserGun extends GameObject implements AutoCloseable {
 
     private void updateTransform() {
         Transform thisTransform = this.getRect().getTransform();
-        Rect playerRect = this.player.getRect();
-        WorldCoords playerCenter = playerRect.getTransform().getCenter();
 
         float rotationDelta = this.player.getRotation() - this.rotation;
         thisTransform.rotateAround(rotationDelta, WorldCoords.getMiddle());
@@ -121,7 +121,7 @@ public class LaserGun extends GameObject implements AutoCloseable {
                         this.aliens,
                         bank,
                         playerTransform.getCenter(),
-                        playerTransform.getLocalRotationAngle(),
+                        playerTransform.getLocalRotationAngle() + this.rotationOffset,
                         this.speed,
                         this.upgradeShop.getUpgradeLevel("pierce"),
                         Consts.SETTINGS.getFloat("bullet/damage") * this.upgradeShop.getUpgradeLevel("damage_up")
