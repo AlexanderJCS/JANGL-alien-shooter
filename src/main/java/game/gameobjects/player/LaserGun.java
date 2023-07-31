@@ -53,12 +53,12 @@ public class LaserGun implements AutoCloseable {
         return this.overheat;
     }
 
-    public void update(Transform playerTransform, PlayerBank bank) {
+    public void update(Player player) {
         this.cooldown.update();
         this.overheat.update();
 
-        this.spawnLaser(bank, playerTransform);
-        this.cleanUpLasers(playerTransform);
+        this.spawnLaser(player);
+        this.cleanUpLasers(player.getRect().getTransform());
 
         for (int i = this.lasers.size() - 1; i >= 0; i--) {
             Laser laser = this.lasers.get(i);
@@ -71,7 +71,7 @@ public class LaserGun implements AutoCloseable {
         }
     }
 
-    private void spawnLaser(PlayerBank bank, Transform playerTransform) {
+    private void spawnLaser(Player player) {
         if (!(Keyboard.getKeyDown(GLFW.GLFW_KEY_SPACE) || Mouse.isMouseDown(GLFW.GLFW_MOUSE_BUTTON_1)) || this.cooldown.onCooldown()) {
             return;
         }
@@ -82,14 +82,17 @@ public class LaserGun implements AutoCloseable {
             return;
         }
 
+        Transform playerTransform = player.getRect().getTransform();
+
         this.lasers.add(
                 new Laser(
                         this.walls,
                         this.aliens,
-                        bank,
+                        player.getBank(),
                         playerTransform.getCenter(),
                         playerTransform.getLocalRotationAngle(),
                         this.speed,
+                        player.getVelocity(),
                         this.upgradeShop.getUpgradeLevel("pierce"),
                         Consts.SETTINGS.getFloat("bullet/damage") * this.upgradeShop.getUpgradeLevel("damage_up")
                 )

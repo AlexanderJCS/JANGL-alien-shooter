@@ -21,7 +21,7 @@ public class Laser extends GameObject implements Destroyable {
     private final float damage;
     private int pierce;
 
-    public Laser(List<Wall> walls, List<Enemy> aliens, PlayerBank bank, WorldCoords origin, float angle, float speed, int pierce, float damage) {
+    public Laser(List<Wall> walls, List<Enemy> aliens, PlayerBank bank, WorldCoords origin, float angle, float speed, WorldCoords initialVel, int pierce, float damage) {
         super(new Rect(new WorldCoords(0, 0), 0.04f, 0.0075f), "green");
 
         this.walls = walls;
@@ -30,8 +30,8 @@ public class Laser extends GameObject implements Destroyable {
         this.getRect().getTransform().setPos(origin);
         this.getRect().getTransform().setLocalRotation(angle);
 
-        this.shiftX = (float) (speed * Math.cos(angle));
-        this.shiftY = (float) (speed * Math.sin(angle));
+        this.shiftX = (float) (speed * Math.cos(angle) + initialVel.x);
+        this.shiftY = (float) (speed * Math.sin(angle) + initialVel.y);
 
         this.pierce = pierce;
         this.bank = bank;

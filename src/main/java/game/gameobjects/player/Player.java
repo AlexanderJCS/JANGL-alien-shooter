@@ -82,7 +82,7 @@ public class Player extends GameObject {
         this.move();
         this.setRotation();
 
-        this.laserGun.update(this.getRect().getTransform(), this.getBank());
+        this.laserGun.update(this);
         this.healthContainer.setRegen((float) (Consts.SETTINGS.getFloat("player/regen") + 0.025 * this.upgradeShop.getUpgradeLevel("regen")));
         this.healthContainer.update();
     }
@@ -115,24 +115,24 @@ public class Player extends GameObject {
         }
     }
 
-    private void move() {
+    public WorldCoords getVelocity() {
         float speedUp = (this.upgradeShop.getUpgradeLevel("speed_up") - 1) * 0.075f;
-        float amountToMove = (float) ((this.speed + speedUp) * Clock.getTimeDelta());
+        float speedWithUpgrade = (this.speed + speedUp);
 
         WorldCoords movement = new WorldCoords(0, 0);
 
         // Vertical axis
         if (Keyboard.getKeyDown(GLFW.GLFW_KEY_W)) {
-            movement.y += amountToMove;
+            movement.y += speedWithUpgrade;
         } if (Keyboard.getKeyDown(GLFW.GLFW_KEY_S)) {
-            movement.y -= amountToMove;
+            movement.y -= speedWithUpgrade;
         }
 
         // Horizontal axis
         if (Keyboard.getKeyDown(GLFW.GLFW_KEY_A)) {
-            movement.x -= amountToMove;
+            movement.x -= speedWithUpgrade;
         } if (Keyboard.getKeyDown(GLFW.GLFW_KEY_D)) {
-            movement.x += amountToMove;
+            movement.x += speedWithUpgrade;
         }
 
         // Prevent horizontal movement being sqrt(2) times as fast (due to Pythagoras)
@@ -143,9 +143,15 @@ public class Player extends GameObject {
             movement.y *= Math.sin(radians);
         }
 
+        return movement;
+    }
+
+    private void move() {
+        WorldCoords movement = this.getVelocity();
+
         // Move
-        stepUntilColliding(new WorldCoords(movement.x, 0), 3);
-        stepUntilColliding(new WorldCoords(0, movement.y), 3);
+        stepUntilColliding(new WorldCoords(movement.x  * (float) Clock.getTimeDelta(), 0), 3);
+        stepUntilColliding(new WorldCoords(0, movement.y * (float) Clock.getTimeDelta()), 3);
     }
 
     private void setRotation() {
