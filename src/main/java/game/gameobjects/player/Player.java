@@ -50,6 +50,7 @@ public class Player extends GameObject {
         );
 
         this.getRect().getTransform().setPos(new WorldCoords(0, 0));
+        this.getRect().getTransform().setScale(1.25f);
     }
 
     @Override
