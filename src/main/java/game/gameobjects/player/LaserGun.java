@@ -92,7 +92,6 @@ public class LaserGun implements AutoCloseable {
                         playerTransform.getCenter(),
                         playerTransform.getLocalRotationAngle(),
                         this.speed,
-                        player.getVelocity(),
                         this.upgradeShop.getUpgradeLevel("pierce"),
                         Consts.SETTINGS.getFloat("bullet/damage") * this.upgradeShop.getUpgradeLevel("damage_up")
                 )

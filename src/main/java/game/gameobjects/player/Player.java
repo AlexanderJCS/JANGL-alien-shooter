@@ -115,7 +115,7 @@ public class Player extends GameObject {
         }
     }
 
-    public WorldCoords getVelocity() {
+    private WorldCoords getVelocity() {
         float speedUp = (this.upgradeShop.getUpgradeLevel("speed_up") - 1) * 0.075f;
         float speedWithUpgrade = (this.speed + speedUp);
 
