@@ -25,12 +25,8 @@ public class Enemy extends GameObject implements Destroyable {
      * Run away after hitting the player.
      */
     private final Cooldown runAwayDamagedCooldown;
-    private final Cooldown changeStateCooldown;
-    private final Cooldown changeDirectionCooldown;
     private final Cooldown animationSwitch;
     private boolean animationState;
-
-    private boolean runAwayState;
 
     public Enemy(WorldCoords center, Player player, List<Wall> walls, float speed) {
         super(new TileSheetRect(new WorldCoords(0, 0), 0.075f, 0.075f, 1, 2), "enemy");
@@ -49,10 +45,6 @@ public class Enemy extends GameObject implements Destroyable {
         this.runAwayDamagedCooldown = new Cooldown(1);
         this.animationSwitch = new Cooldown(0.05f);
         this.animationState = true;
-        this.runAwayState = Math.random() > 0.5;
-        this.changeStateCooldown = new Cooldown((float) (10 + Math.random() * 10));
-        this.changeDirectionCooldown = new Cooldown(5);
-        this.changeStateCooldown.activate();
     }
 
     @Override
@@ -65,14 +57,6 @@ public class Enemy extends GameObject implements Destroyable {
         this.setRotation();
         this.dealDamage();
         this.animate();
-
-        this.changeDirectionCooldown.update();
-        this.changeStateCooldown.update();
-
-        if (!this.changeStateCooldown.onCooldown()) {
-            this.runAwayState = !this.runAwayState;
-            this.changeStateCooldown.activate();
-        }
     }
 
     public void animate() {
@@ -101,13 +85,6 @@ public class Enemy extends GameObject implements Destroyable {
     }
 
     private void setRotation() {
-        if (this.runAwayState && !this.changeDirectionCooldown.onCooldown()) {
-            this.changeDirectionCooldown.activate();
-            this.angle = Consts.RANDOM.nextFloat((float) -Math.PI, (float) Math.PI);
-        } else if (this.runAwayState) {
-            return;
-        }
-
         WorldCoords thisLocation = this.getRect().getTransform().getCenter();
         WorldCoords targetCoords = this.player.getRect().getTransform().getCenter();
 
@@ -148,11 +125,6 @@ public class Enemy extends GameObject implements Destroyable {
 
             if (Shape.collides(wall.getRect(), this.getRect())) {
                 transform.shift(-movement.x, -movement.y);
-
-                if (this.runAwayState) {
-                    this.angle = Consts.RANDOM.nextFloat((float) -Math.PI, (float) Math.PI);
-                }
-
                 break;
             }
         }
@@ -172,14 +144,10 @@ public class Enemy extends GameObject implements Destroyable {
     private void move() {
         float speed = this.healthContainer.onCooldown() ? this.speed * COOLDOWN_SPEED_MULTIPLIER : this.speed;
 
-        if (this.runAwayState) {
-            speed *= 0.333;
-        }
-
         float moveX = (float) (Math.cos(this.angle) * speed * Clock.getTimeDelta());
         float moveY = (float) (Math.sin(this.angle) * speed * Clock.getTimeDelta());
 
-        if (this.runAwayDamagedCooldown.onCooldown() || this.runAwayState) {
+        if (this.runAwayDamagedCooldown.onCooldown()) {
             moveX *= -1;
             moveY *= -1;
         }
