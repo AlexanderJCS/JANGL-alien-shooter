@@ -47,7 +47,7 @@ public class Enemy extends GameObject implements Destroyable {
         this.animationSwitch = new Cooldown(0.05f);
         this.animationState = true;
 
-        this.angleOffset = Consts.RANDOM.nextFloat((float) -Math.PI / 6, (float) Math.PI / 6);
+        this.angleOffset = Consts.RANDOM.nextFloat((float) -Math.PI / 9, (float) Math.PI / 9);
     }
 
     @Override
