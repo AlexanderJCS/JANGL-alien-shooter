@@ -3,6 +3,7 @@ package helper.ini;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * A simple .ini file parser used to parse the settings.ini file.
@@ -68,8 +69,14 @@ public class IniParser {
         return varAndValue;
     }
 
-    public String getString(String varName) {
-        return this.values.get(varName);
+    public String getString(String varName) throws NoSuchElementException {
+        String value = this.values.get(varName);
+
+        if (value == null) {
+            throw new NoSuchElementException("Cannot find value in configuration file: " + varName);
+        }
+
+        return value;
     }
 
     public float getFloat(String varName) {

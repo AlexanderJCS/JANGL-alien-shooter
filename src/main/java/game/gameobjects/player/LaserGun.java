@@ -35,7 +35,7 @@ public class LaserGun implements AutoCloseable {
         // Set the cooldown to 0.05 for a machine gun. Set the cooldown to 0 (or near 0)
         // for the laser equivalent of the A-10 Warthog
         this.cooldown = new Cooldown(Consts.SETTINGS.getFloat("gun/fire_rate"));
-        SoundPlayer.getSound("shoot").setVolume(0.3f);
+
         this.overheat = new GunOverheat(
                 Consts.SETTINGS.getFloat("gun/cooldown_increment"),
                 Consts.SETTINGS.getFloat("gun/cooldown_decrement")

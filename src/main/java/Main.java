@@ -1,4 +1,5 @@
 import game.Game;
+import game.SoundPlayer;
 import helper.Consts;
 import jangl.JANGL;
 import jangl.graphics.textures.TextureBuilder;
@@ -12,6 +13,8 @@ public class Main {
         Window.setIcon(new TextureBuilder().setImagePath("src/main/resources/icon.png"));
 
         Consts.FONT.setObeyCamera(false);
+
+        SoundPlayer.init();
 
         while (Window.shouldRun()) {
             Game game = new Game();

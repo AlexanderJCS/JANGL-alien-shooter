@@ -1,8 +1,10 @@
 package game;
 
+import helper.Consts;
 import jangl.sound.Sound;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class SoundPlayer {
     private SoundPlayer() {
@@ -25,5 +27,11 @@ public class SoundPlayer {
 
     public static Sound getSound(String id) {
         return SOUND_MAP.get(id);
+    }
+
+    public static void init() {
+        for (Map.Entry<String, Sound> entry : SOUND_MAP.entrySet()) {
+            entry.getValue().setVolume(Consts.SETTINGS.getFloat("volume/" + entry.getKey()));
+        }
     }
 }
