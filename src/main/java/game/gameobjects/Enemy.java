@@ -21,6 +21,7 @@ public class Enemy extends GameObject implements Destroyable {
     private final List<Wall> walls;
     private float angle;
     private final HealthContainer healthContainer;
+    private final float angleOffset;
     /**
      * Run away after hitting the player.
      */
@@ -45,6 +46,8 @@ public class Enemy extends GameObject implements Destroyable {
         this.runAwayDamagedCooldown = new Cooldown(1);
         this.animationSwitch = new Cooldown(0.05f);
         this.animationState = true;
+
+        this.angleOffset = Consts.RANDOM.nextFloat((float) -Math.PI / 6, (float) Math.PI / 6);
     }
 
     @Override
@@ -88,7 +91,7 @@ public class Enemy extends GameObject implements Destroyable {
         WorldCoords thisLocation = this.getRect().getTransform().getCenter();
         WorldCoords targetCoords = this.player.getRect().getTransform().getCenter();
 
-        this.angle = (float) (Math.atan2(thisLocation.y - targetCoords.y, thisLocation.x - targetCoords.x));
+        this.angle = (float) (Math.atan2(thisLocation.y - targetCoords.y, thisLocation.x - targetCoords.x)) + this.angleOffset;
 
         // Prevent the alien from running towards you upside-down.
         float realAngle = this.angle > Math.PI / 2 || this.angle < -Math.PI / 2 ? (float) (this.angle + Math.PI) : this.angle;
