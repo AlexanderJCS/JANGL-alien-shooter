@@ -1,13 +1,17 @@
 import game.Game;
 import game.SoundPlayer;
 import helper.Consts;
+import helper.ini.IniParser;
 import jangl.JANGL;
 import jangl.graphics.textures.TextureBuilder;
 import jangl.io.Window;
 
 public class Main {
     public static void main(String[] args) {
-        JANGL.init(1600, 900);
+        IniParser settings = new IniParser("src/main/resources/settings.ini");
+
+        JANGL.init(settings.getInt("window/width"), settings.getInt("window/height"));
+
         Window.setTitle("Enemy Shooter");
         Window.setVsync(true);
         Window.setIcon(new TextureBuilder().setImagePath("src/main/resources/icon.png"));
