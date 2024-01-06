@@ -63,7 +63,7 @@ public class Bar implements AutoCloseable {
                         // Multiply by 200 so the thickness is equal to 1 pixel per 0.005 WorldCoords
                         (int) (200 * this.bar.getWidth()),
                         (int) (200 * this.bar.getHeight())
-                ).setObeyCamera(false)
+                ).setObeyCamera(false).setPixelatedScaling()
         );
 
         for (int x = 1; x < mutableTexture.width - 1; x++) {
@@ -76,7 +76,7 @@ public class Bar implements AutoCloseable {
     }
 
     public void setPercentage(float percentage) {
-        this.bar.getTransform().setWidth(this.maxWidth * percentage, this.maxWidth);
+        this.bar.getTransform().setWidth(this.maxWidth * percentage, this.bar.getWidth());
         this.bar.getTransform().setPos(this.originalCenter.x - this.maxWidth * (1 - percentage) / 2, this.originalCenter.y);
     }
 

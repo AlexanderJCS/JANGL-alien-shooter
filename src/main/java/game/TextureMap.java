@@ -13,8 +13,8 @@ public class TextureMap {
     }
 
     private static final Map<String, Texture> TEXTURE_MAP = new HashMap<>(){{
+        // Colors
         put("white", new Texture(new TextureBuilder().fill(ColorFactory.fromNorm(1, 1, 1, 1), 1, 1)));
-
         put("green", new Texture(new TextureBuilder().fill(ColorFactory.from255(0, 214, 49, 255), 1, 1)));
 
         // Game objects
