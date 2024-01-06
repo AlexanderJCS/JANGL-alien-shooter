@@ -14,10 +14,7 @@ public class TextWithIcon implements AutoCloseable {
 
     public TextWithIcon(WorldCoords topLeft, Font font, String text, float height, String iconID) {
         this.icon = new Image(
-                new Rect(
-                        new WorldCoords(topLeft.x, topLeft.y),
-                        height, height
-                ),
+                new Rect(new WorldCoords(topLeft.x, topLeft.y), height, height),
                 TextureMap.get(iconID)
         );
 
