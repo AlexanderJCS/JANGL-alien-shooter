@@ -71,7 +71,7 @@ public class Enemy extends GameObject implements Destroyable {
         TileSheetRect tileSheetRect = (TileSheetRect) this.getRect();
         this.animationState = !this.animationState;
 
-        tileSheetRect.setTilePos(0, this.animationState ? 2 : 1);
+        tileSheetRect.setTilePos(0, this.animationState ? 1 : 0);
         this.animationSwitch.activate();
     }
 
@@ -93,9 +93,11 @@ public class Enemy extends GameObject implements Destroyable {
 
         this.angle = (float) (Math.atan2(thisLocation.y - targetCoords.y, thisLocation.x - targetCoords.x)) + this.angleOffset;
 
-        // Prevent the alien from running towards you upside-down.
+        // Prevent the alien from running towards you upside-down
         float realAngle = this.angle > Math.PI / 2 || this.angle < -Math.PI / 2 ? (float) (this.angle + Math.PI) : this.angle;
+        System.out.println(this.getRect().getTransform().getRotation());
         this.getRect().getTransform().setRotation(realAngle);
+        System.out.println(this + " " + realAngle + " " + this.getRect().getTransform().getRotation());
     }
 
     /**
