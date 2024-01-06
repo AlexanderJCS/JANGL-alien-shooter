@@ -95,9 +95,7 @@ public class Enemy extends GameObject implements Destroyable {
 
         // Prevent the alien from running towards you upside-down
         float realAngle = this.angle > Math.PI / 2 || this.angle < -Math.PI / 2 ? (float) (this.angle + Math.PI) : this.angle;
-        System.out.println(this.getRect().getTransform().getRotation());
         this.getRect().getTransform().setRotation(realAngle);
-        System.out.println(this + " " + realAngle + " " + this.getRect().getTransform().getRotation());
     }
 
     /**
