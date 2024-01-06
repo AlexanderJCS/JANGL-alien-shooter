@@ -4,7 +4,6 @@ import game.gameobjects.Enemy;
 import game.gameobjects.Destroyable;
 import game.gameobjects.GameObject;
 import game.gameobjects.Wall;
-import helper.Consts;
 import jangl.coords.WorldCoords;
 import jangl.shapes.Rect;
 import jangl.shapes.Shape;
@@ -28,7 +27,7 @@ public class Laser extends GameObject implements Destroyable {
         this.aliens = aliens;
 
         this.getRect().getTransform().setPos(origin);
-        this.getRect().getTransform().setLocalRotation(angle);
+        this.getRect().getTransform().setRotation(angle);
 
         this.shiftX = (float) (speed * Math.cos(angle));
         this.shiftY = (float) (speed * Math.sin(angle));

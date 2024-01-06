@@ -2,7 +2,7 @@ import game.Game;
 import game.SoundPlayer;
 import helper.Consts;
 import helper.ini.IniParser;
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.graphics.textures.TextureBuilder;
 import jangl.io.Window;
 
@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         IniParser settings = new IniParser("src/main/resources/settings.ini");
 
-        JANGL.init(settings.getInt("window/width"), settings.getInt("window/height"));
+        Jangl.init(settings.getInt("window/width"), settings.getInt("window/height"));
 
         Window.setTitle("Enemy Shooter");
         Window.setVsync(true);

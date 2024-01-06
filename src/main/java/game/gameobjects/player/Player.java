@@ -62,7 +62,7 @@ public class Player extends GameObject {
         }
 
         this.shaderProgram.bind();
-        this.image.draw();
+        this.rect.draw(this.texture);
         this.shaderProgram.unbind();
     }
 
@@ -77,7 +77,7 @@ public class Player extends GameObject {
     @Override
     public void update() {
         // Set the rotation to 0 to not interfere with collision
-        this.getRect().getTransform().setLocalRotation(0);
+        this.getRect().getTransform().setRotation(0);
 
         this.move();
         this.setRotation();
@@ -159,7 +159,7 @@ public class Player extends GameObject {
         WorldCoords mouseCoords = Mouse.getMousePos();
 
         float angle = (float) (Math.atan2(mouseCoords.y - middle.y, mouseCoords.x - middle.x));
-        this.getRect().getTransform().setLocalRotation(angle);
+        this.getRect().getTransform().setRotation(angle);
     }
 
     public void dealDamage(float damage) {

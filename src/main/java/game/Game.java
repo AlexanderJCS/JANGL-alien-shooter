@@ -3,11 +3,12 @@ package game;
 import game.gameobjects.player.Player;
 import helper.Consts;
 import helper.EventsManager;
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.color.ColorFactory;
 import jangl.coords.WorldCoords;
 import jangl.graphics.Camera;
 import jangl.graphics.font.Text;
+import jangl.graphics.font.TextBuilder;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.premade.ColorShader;
 import jangl.io.Window;
@@ -34,7 +35,7 @@ public class Game implements AutoCloseable {
         this.player = new Player(this.gameMap.getWalls(), this.enemySpawner.getEnemyList(), Consts.SETTINGS.getFloat("player/base_speed"));
         this.enemySpawner.setPlayer(this.player);
 
-        this.infoText = new Text(new WorldCoords(0.05f, 0.975f), Consts.FONT, 0.05f, "");
+        this.infoText = new TextBuilder(Consts.FONT, "").setCoords(new WorldCoords(0.05f, 0.975f)).toText();
         this.paused = false;
 
         this.uiDisplay = new UIDisplay(this.player, this.enemySpawner);
@@ -95,27 +96,26 @@ public class Game implements AutoCloseable {
 
             Window.setTitle("Alien Shooter | FPS: " + Math.round(Clock.getSmoothedFps()));
 
-            JANGL.update();
+            System.gc();
+            Jangl.update();
         }
     }
 
     public void diedScreen() {
-        Text diedText = new Text(
-                new WorldCoords(0.1f, 0.6f),
-                Consts.FONT,
-                0.07f,
-                "You died!\nWAVE No. " + this.enemySpawner.getWaveNumber() + "\nPress G to continue"
-        );
+        Text diedText = new TextBuilder(Consts.FONT, "You died!\nWAVE No. " + this.enemySpawner.getWaveNumber() + "\nPress G to continue")
+                .setCoords(new WorldCoords(0.1f, 0.6f))
+                .setYHeight(0.07f)
+                .toText();
 
         Rect background = new Rect(new WorldCoords(0, 1), WorldCoords.getMiddle().x * 2, 1);
-        ShaderProgram backgroundShader = new ShaderProgram(new ColorShader(ColorFactory.fromNormalized(0, 0, 0, 0.4f)));
+        ShaderProgram backgroundShader = new ShaderProgram(new ColorShader(ColorFactory.fromNorm(0, 0, 0, 0.4f)));
         backgroundShader.getVertexShader().setObeyCamera(false);
 
         while (!Keyboard.getKeyDown(GLFW.GLFW_KEY_G) && Window.shouldRun()) {
             this.draw();
             background.draw(backgroundShader);
             diedText.draw();
-            JANGL.update();
+            Jangl.update();
         }
 
         diedText.close();

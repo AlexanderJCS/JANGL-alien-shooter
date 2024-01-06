@@ -4,6 +4,7 @@ import game.TextureMap;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Font;
 import jangl.graphics.font.Text;
+import jangl.graphics.font.TextBuilder;
 import jangl.graphics.textures.Image;
 import jangl.shapes.Rect;
 
@@ -24,9 +25,7 @@ public class TextWithIcon implements AutoCloseable {
                 topLeft.x + height + 0.01f, topLeft.y - 0.005f
         );
 
-        this.text = new Text(
-            textTopLeft, font, height, text
-        );
+        this.text = new TextBuilder(font, text).setCoords(textTopLeft).setYHeight(height).toText();
     }
 
     public Text getText() {
@@ -40,7 +39,10 @@ public class TextWithIcon implements AutoCloseable {
 
     @Override
     public void close() {
-        this.icon.rect().close();
+        try {
+            this.icon.shape().close();
+        } catch (Exception ignored) {}
+
         this.text.close();
     }
 }

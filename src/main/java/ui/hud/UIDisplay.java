@@ -21,7 +21,7 @@ public class UIDisplay implements AutoCloseable {
         this.enemySpawner = enemySpawner;
 
         // Bottom left
-        this.healthBar = new Bar("heart", new WorldCoords(0.05f, 0.1f), 0.3f, 0.05f, ColorFactory.fromNormalized(1, 0.1f, 0.1f, 1));
+        this.healthBar = new Bar("heart", new WorldCoords(0.05f, 0.1f), 0.3f, 0.05f, ColorFactory.fromNorm(1, 0.1f, 0.1f, 1));
         this.waveBar = new Bar("clock", new WorldCoords(0.05f, 0.175f), 0.3f, 0.05f, ColorFactory.from255(102, 206, 255, 255));
         this.enemyCounter = new TextWithIcon(new WorldCoords(0.05f, 0.25f), Consts.FONT, "0", 0.05f, "enemyUI");
 

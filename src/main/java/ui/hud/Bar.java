@@ -24,10 +24,7 @@ public class Bar implements AutoCloseable {
 
     public Bar(String iconID, WorldCoords topLeft, float width, float height, Color barColor) {
         this.icon = new Image(
-                new Rect(
-                        topLeft, height, height
-                ),
-
+                new Rect(topLeft, height, height),
                 TextureMap.get(iconID)
         );
 
@@ -53,7 +50,7 @@ public class Bar implements AutoCloseable {
     }
 
     private MutableTexture getOutline(Color barColor) {
-        Color outlineColor = ColorFactory.fromNormalized(
+        Color outlineColor = ColorFactory.fromNorm(
                 Math.max(0, barColor.getNormRed() - 0.2f),
                 Math.max(0, barColor.getNormGreen() - 0.2f),
                 Math.max(0, barColor.getNormBlue() - 0.2f),
@@ -79,7 +76,7 @@ public class Bar implements AutoCloseable {
     }
 
     public void setPercentage(float percentage) {
-        this.bar.setWidth(this.maxWidth * percentage);
+        this.bar.getTransform().setWidth(this.maxWidth * percentage, this.maxWidth);
         this.bar.getTransform().setPos(this.originalCenter.x - this.maxWidth * (1 - percentage) / 2, this.originalCenter.y);
     }
 
@@ -92,7 +89,10 @@ public class Bar implements AutoCloseable {
 
     @Override
     public void close() {
-        this.icon.rect().close();
+        try {
+            this.icon.shape().close();
+        } catch (Exception ignored) {}
+
         this.barOutlineTexture.close();
         this.barOutlineRect.close();
         this.bar.close();

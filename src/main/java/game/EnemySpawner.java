@@ -101,7 +101,7 @@ public class EnemySpawner implements AutoCloseable {
             this.spawnNextWave();
         }
 
-        if (this.enemies.size() == 0 && this.waveCooldown.getCurrentCooldown() > 5) {
+        if (this.enemies.isEmpty() && this.waveCooldown.getCurrentCooldown() > 5) {
             this.waveCooldown.setCurrentCooldown(5);
         }
 
@@ -111,14 +111,14 @@ public class EnemySpawner implements AutoCloseable {
             enemy.update();
 
             if (enemy.shouldDestroy()) {
-                enemy.close();
+                // enemy.close();
                 this.enemies.remove(i);
             }
         }
     }
 
     public void draw() {
-        if (this.enemies.size() == 0) {
+        if (this.enemies.isEmpty()) {
             return;
         }
 
@@ -130,7 +130,7 @@ public class EnemySpawner implements AutoCloseable {
     @Override
     public void close() {
         for (Enemy enemy : this.enemies) {
-            enemy.close();
+            // enemy.close();
         }
     }
 }

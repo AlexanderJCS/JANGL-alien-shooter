@@ -55,7 +55,7 @@ public class Enemy extends GameObject implements Destroyable {
         this.healthContainer.update();
         this.runAwayDamagedCooldown.update();
 
-        this.getRect().getTransform().setLocalRotation(0);
+        this.getRect().getTransform().setRotation(0);
         this.move();
         this.setRotation();
         this.dealDamage();
@@ -95,7 +95,7 @@ public class Enemy extends GameObject implements Destroyable {
 
         // Prevent the alien from running towards you upside-down.
         float realAngle = this.angle > Math.PI / 2 || this.angle < -Math.PI / 2 ? (float) (this.angle + Math.PI) : this.angle;
-        this.getRect().getTransform().setLocalRotation(realAngle);
+        this.getRect().getTransform().setRotation(realAngle);
     }
 
     /**

@@ -74,7 +74,7 @@ public class UpgradeShop implements AutoCloseable {
 
         this.background = new Rect(new WorldCoords(0, 1), WorldCoords.getMiddle().x * 2, 1);
         this.backgroundShader = new ShaderProgram(
-                new ColorShader(ColorFactory.fromNormalized(0, 0, 0, 0.4f))
+                new ColorShader(ColorFactory.fromNorm(0, 0, 0, 0.4f))
         );
         this.backgroundShader.getVertexShader().setObeyCamera(false);
     }
